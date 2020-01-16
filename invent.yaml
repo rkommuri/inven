@@ -16,7 +16,7 @@ externalDocs:
   description: "You can find more details on the url"
   url: "https://flm.slb.com"
 host: flm.slb.com
-basePath: /market-to-cash/inventory
+basePath: /market-to-cash/inventory123
 schemes:
   - https
 security:
