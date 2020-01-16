@@ -22,7 +22,7 @@ schemes:
 security:
   - ApiKeyAuth: []
 paths:
-  /inventory:
+  /Inventory:
     post:
       tags:
         - Inventory
@@ -83,26 +83,6 @@ securityDefinitions:
       write: Grants write access
       admin: Grants read and write access to administrative information
 definitions:
-  inventory:
-    type: object
-    properties:
-      type:
-        type: string
-      attributes:
-        $ref: >-
-          #/definitions/InventoryAttributes
-      CreatedDate:
-        format: date-time
-        type: string
-      CreatedBy:
-        type: string
-      LastModifiedDate:
-        format: date-time
-        type: string
-      LastModifiedBy:
-        type: string
-      Id:
-        type: string
   Inventory:
     type: object
     properties:
