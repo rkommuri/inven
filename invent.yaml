@@ -378,9 +378,9 @@ definitions:
           type: string
 securityDefinitions:
   ApiKeyAuth:
-    type: apiKey
-    in: header
-    name: X-API-Key
+    type: "apiKey"
+    in: "header"
+    name: "x-apikey"
   OAuth2:
     type: oauth2
     flow: accessCode
