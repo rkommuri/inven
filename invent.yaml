@@ -19,6 +19,8 @@ host: flm.slb.com
 basePath: /market-to-cash/inventory/
 schemes:
   - https
+security:
+  - ApiKeyAuth: []
 paths:
   /inventory:
     post:
@@ -66,8 +68,6 @@ paths:
           description: Invalid Operation
         '404':
           description: Resource not found     
-      security:
-         - ApiKeyAuth: []
 definitions:
   Inventory:
     type: object
