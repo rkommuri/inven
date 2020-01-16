@@ -22,8 +22,8 @@ schemes:
 security:
   - ApiKeyAuth: []
 paths:
-  /Inventory:
-    post:
+  /inventory:
+    get:
       tags:
         - Inventory
       summary: Method to submit inventory movement
