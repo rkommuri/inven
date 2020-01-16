@@ -68,6 +68,20 @@ paths:
           description: Invalid Operation
         '404':
           description: Resource not found     
+securityDefinitions:
+  ApiKeyAuth:
+    type: "apiKey"
+    in: "header"
+    name: "x-apikey"
+  OAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: https://example.com/oauth/authorize
+    tokenUrl: https://example.com/oauth/token
+    scopes:
+      read: Grants read access
+      write: Grants write access
+      admin: Grants read and write access to administrative information
 definitions:
   Inventory:
     type: object
@@ -376,17 +390,4 @@ definitions:
           type: string
         message:
           type: string
-securityDefinitions:
-  ApiKeyAuth:
-    type: "apiKey"
-    in: "header"
-    name: "x-apikey"
-  OAuth2:
-    type: oauth2
-    flow: accessCode
-    authorizationUrl: https://example.com/oauth/authorize
-    tokenUrl: https://example.com/oauth/token
-    scopes:
-      read: Grants read access
-      write: Grants write access
-      admin: Grants read and write access to administrative information
+
