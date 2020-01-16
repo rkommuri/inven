@@ -66,8 +66,12 @@ paths:
               $ref: '#/definitions/ApiResponse'
         '400':
           description: Invalid Operation
+          schema:
+              $ref: '#/definitions/ApiResponse'
         '404':
           description: Resource not found
+          schema:
+              $ref: '#/definitions/ApiResponse'
 securityDefinitions:
   ApiKeyAuth:
     type: "apiKey"
