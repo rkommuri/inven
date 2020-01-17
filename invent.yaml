@@ -24,8 +24,6 @@ security:
 paths:
   /inventory:
     post:
-      tags:
-        - Inventory
       summary: Method to submit inventory movement
       operationId: Inventory
       consumes:
@@ -44,12 +42,12 @@ paths:
           default: "SubmitGR"
         - name: data
           in: body
-          description: ''
           required: false
           schema:
             type: array
             items:
-              $ref: '#/definitions/Inventory'
+              $ref: >-
+              #/definitions/Inventory
             uniqueItems: false
       responses:
         '200':
@@ -83,13 +81,12 @@ securityDefinitions:
       admin: Grants read and write access to administrative information
 definitions:
   Inventory:
-    type: array
+    type: string
     properties:
       type:
         type: string
       attributes:
-        $ref: >-
-          #/definitions/InventoryAttributes
+        type: string
       CreatedDate:
         format: date-time
         type: string
