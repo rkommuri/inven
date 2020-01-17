@@ -24,25 +24,6 @@ security:
   - APIKeyHeader: []
   
 paths:
-  /pcp/{gin}:
-    get:
-      description: The current Personal Competency Profile
-      summary: The current Personal Competency Profile
-      operationId: pcp
-      deprecated: false
-      produces:
-      - application/json
-      parameters:
-      - in: path
-        name: gin
-        type: integer
-        required: true
-      responses:
-        200:
-          description: Personal Competency Profile
-          schema:
-            $ref: '#/definitions/PcpResponse'
-          headers: {}          
   /competency-job:
     post:
       description: Persist Job for use in Competency Transactions
