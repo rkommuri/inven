@@ -16,7 +16,7 @@ externalDocs:
   description: "You can find more details on the url"
   url: "https://flm.slb.com"
 host: flm.slb.com
-basePath: /market-to-cash/inventory123
+basePath: /market-to-cash/inventory/
 schemes:
   - https
 security:
@@ -24,6 +24,8 @@ security:
 paths:
   /inventory:
     post:
+      tags:
+        - Inventory
       summary: Method to submit inventory movement
       operationId: Inventory
       consumes:
@@ -42,13 +44,14 @@ paths:
           default: "SubmitGR"
         - name: data
           in: body
+          description: ''
           required: false
           schema:
+            uniqueItems: false
             type: array
             items:
               $ref: >-
-              #/definitions/Inventory
-            uniqueItems: false
+                #/definitions/Inventory
       responses:
         '200':
           description: Success
@@ -64,12 +67,12 @@ paths:
         '400':
           description: Invalid Operation
         '404':
-          description: Resource not found
+          description: Resource not found     
 securityDefinitions:
   ApiKeyAuth:
-    type: "apiKey"
-    in: "header"
-    name: "x-apikey"
+    type: apiKey
+    in: header
+    name: X-API-Key
   OAuth2:
     type: oauth2
     flow: accessCode
@@ -81,12 +84,13 @@ securityDefinitions:
       admin: Grants read and write access to administrative information
 definitions:
   Inventory:
-    type: string
+    type: object
     properties:
       type:
         type: string
       attributes:
-        type: string
+        $ref: >-
+          #/definitions/InventoryAttributes
       CreatedDate:
         format: date-time
         type: string
@@ -386,4 +390,3 @@ definitions:
           type: string
         message:
           type: string
-
