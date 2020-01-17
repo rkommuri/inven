@@ -83,7 +83,7 @@ securityDefinitions:
       admin: Grants read and write access to administrative information
 definitions:
   Inventory:
-    type: object
+    type: array
     properties:
       type:
         type: string
