@@ -22,7 +22,7 @@ schemes:
 security:
   - ApiKeyAuth: []
 paths:
-  /inventory/{inventoryid}:
+  /inventory:
     post:
       tags:
         - Inventory
@@ -47,10 +47,10 @@ paths:
           description: ''
           required: false
           schema:
-            uniqueItems: false
             type: array
             items:
               $ref: '#/definitions/Inventory'
+            uniqueItems: false
       responses:
         '200':
           description: Success
