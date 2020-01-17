@@ -19,22 +19,22 @@ host: flm.slb.com
 basePath: /market-to-cash/inventory/
 schemes:
   - https
+consumes:
+  - application/json-patch+json
+  - application/json
+  - text/json
+  - application/*+json
+produces:
+  - application/json
 security:
-  - ApiKeyAuth: []
+ - ApiKeyAuth: []
 paths:
-  /inventory:
+  /inventories:
     post:
       tags:
         - Inventory
       summary: Method to submit inventory movement
       operationId: Inventory
-      consumes:
-        - application/json-patch+json
-        - application/json
-        - text/json
-        - application/*+json
-      produces:
-        - application/json
       parameters:
         - name: operation
           in: path
@@ -49,7 +49,8 @@ paths:
           schema:
             uniqueItems: false
             items:
-              $ref: '#/definitions/Inventory'
+              $ref: >-
+                #/definitions/Inventory
       responses:
         '200':
           description: Success
