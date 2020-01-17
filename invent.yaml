@@ -22,7 +22,7 @@ schemes:
 security:
   - ApiKeyAuth: []
 paths:
-  /inventory/:
+  /inventory/{inventoryid}:
     post:
       tags:
         - Inventory
