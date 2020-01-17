@@ -12,7 +12,7 @@ externalDocs:
   description: "Find out more on the SLB WIKI"
   url: "https://wiki.slb.com/display/ea/Developer%27s+Guide+to+Self-Service"
 host: apigateway.evq.it.slb.com
-basePath: /risk-to-integrity/competency_competencydata_api
+basePath: /risk-to-integrity/competency-competencydata-api
 schemes:
  - https
 consumes:
