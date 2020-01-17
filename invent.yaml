@@ -85,7 +85,6 @@ definitions:
   Inventory:
     type: object
     properties:
-        type: string
       attributes:
         $ref: >-
           #/definitions/InventoryAttributes
