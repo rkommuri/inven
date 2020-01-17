@@ -48,10 +48,8 @@ paths:
           required: false
           schema:
             uniqueItems: false
-            type: array
             items:
-              $ref: >-
-                #/definitions/Inventory
+              $ref: '#/definitions/Inventory'
       responses:
         '200':
           description: Success
