@@ -23,7 +23,7 @@ security:
   - ApiKeyAuth: []
 paths:
   /inventory:
-    get:
+    post:
       tags:
         - Inventory
       summary: Method to submit inventory movement
@@ -50,8 +50,7 @@ paths:
             uniqueItems: false
             type: array
             items:
-              $ref: >-
-                #/definitions/Inventory
+              $ref: '#/definitions/Inventory'
       responses:
         '200':
           description: Success
