@@ -32,6 +32,8 @@ paths:
       summary: AP Invoices for Schlumberger Corporation.
       description: "This operation allows you to search for an AP Invoice based on the following filters\n\n  - If you do not add any query string parameters(search filters), this operation will with a Bad Request Error as Company Code is required for us to process your request.\n  - Use the page parameter to indicate the page you would like returned\n  - Use itemsPerPage to indicate the number of invoices to return in each response. \n  - You can use ?vendor-name=\"RICKMAN TRANSPORT LLC\" to limit your search to only invoices for a specific vendor\n  - You can use ?urn='241048223' to search by URN\n  - You can do date range search by using from and end date filters e.g ?invoice-date-from >=\"2019-10-01\" and invoice-date-end <=\"2019-10-30\"\n   - For Date Search which is for the same day you can specify same value in From and End Date filters e.g ?invoice-date-from >=\"2019-10-01\" and invoice-date-end <=\"2019-10-01\"\n  - When only From Date is specified for the Date Filter, systems searchs for records all the records from the specified date to last record available in the system which matches the criteria.\"\n - You can use any of these query sting variables in combination to do your search. \n  - Use the search parameter to do a text match search on the Vendor Name. \n  \nIf there are more than 50 invoices returned, the results will be paginated.\nThe maximum number of items that will be returned in a request will be 1000.\n  \n"
       operationId: apinvoices
+      produces:
+      - application/json
       parameters:
       - name: Authorization
         in: header
