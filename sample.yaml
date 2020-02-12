@@ -6,6 +6,7 @@ info:
   contact:
     name: Intouch Support
     url: 'http://www.intouchsupport.com/index.cfm?event=content.submit&contenttype=5'
+    email: FDP-Supportteam@slb.com
   license:
     name: (c) Copyright Schlumberger, unpublished work, created 11/19/2019
 externalDocs:
@@ -20,7 +21,7 @@ schemes:
   - https
 security:
         - ApiKeyHeader: []
-host: "fdp.slb.com"
+host: "evd.apigateway.slb.com"
 basePath: '/market-to-cash'
 securityDefinitions:
   ApiKeyHeader:
@@ -28,7 +29,7 @@ securityDefinitions:
     in: header
     name: x-apikey
 paths:
-  /jobs:
+  /operationalactivities:
     get:
       summary: Return a list of Jobs along with the respective header attributes.
       operationId: listJobs
@@ -99,7 +100,7 @@ paths:
           description: unexpected error
           schema: 
             $ref: '#/definitions/Error'
-  /jobs/{jobId}:
+  /operationalactivities/{jobid}:
     get:
       summary: Returns jobs header attributes information for specified job ID.
       operationId: getJobInfo
@@ -111,7 +112,7 @@ paths:
       tags:
         - JobInfo
       parameters:
-        - name: jobId
+        - name: jobid
           in: path
           description: Unique identifier of a Job. 
           required: true
