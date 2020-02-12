@@ -1,882 +1,455 @@
 swagger: '2.0'
 info:
-  version: '1.0'
-  title: Competency API
-  description: This API provides Competency Transactional Services
+  version: 1.0.0
+  title:  Operational Activities
+  description: The API allows users to query the Job operation attributes available for a specific JobID or based on parameters:- Job Active From-To, Job Status, Prodictline, CountryISOCode, DistrictID. The data classification is private.
   contact:
-    name: Jeff Woodel
-    email: JWoodel@slb.com
+    name: Intouch Support
+    url: 'http://www.intouchsupport.com/index.cfm?event=content.submit&contenttype=5'
   license:
-    name: Schlumberger proprietary
+    name: (c) Copyright Schlumberger, unpublished work, created 11/19/2019
 externalDocs:
-  description: "Find out more on the SLB WIKI"
-  url: "https://wiki.slb.com/display/ea/Developer%27s+Guide+to+Self-Service"
-host: apigateway.evq.it.slb.com
-basePath: /risk-to-integrity/competencycompetencydataapi
+  description: "More information is available here."
+  url: "https://link-to-external-documentation"
+tags:
+  - name: "JobsList"
+    description: "API provides list of iDistrict jobs & FDP Operational Activities along with respective header attributes."
+  - name: "JobInfo"
+    description: "API provides job header attributes for specified job ID."
 schemes:
- - https
-consumes:
-- application/json
-produces:
-- application/json
-#Authentication    
+  - https
 security:
-  - APIKeyHeader: []
-  
-paths:
-  /competency-job:
-    post:
-      description: Persist Job for use in Competency Transactions
-      summary: Persist Job for use in Competency Transactions
-      operationId: competency-job
-      deprecated: false
-      consumes:
-        - application/json
-      produces:
-      - application/json
-      parameters:
-      - $ref: '#/parameters/competencyPayloadParam'
-      responses:
-        200:
-          description: Competency Internal Job ID
-          schema:
-            $ref: '#/definitions/JobId'
-          headers: {}          
-  /competency-job-id:
-    get:
-      description: Competency unique identifier for a Job
-      summary: Returns the internal Competency indentifier for a Job
-      operationId: competency-job-id
-      deprecated: false
-      produces:
-      - application/json
-      parameters:
-      - in: query
-        name: externalJobId
-        required: true
-        type: string
-      - in: query
-        name: sourceSystemId
-        type: integer
-        required: true
-      - in: query
-        name: productLineId
-        type: integer
-        required: true
-      - name: isCompetencySegmentId
-        in: query
-        required: false
-        type: boolean
-        description: ''
-      responses:
-        200:
-          description: Auto generated using Swagger Inspector
-          schema:
-            $ref: '#/definitions/JobId'
-          headers: {}
-  /risk-calculation/{job-id}:
-    get:
-      description: Calculated risk level and score for Competency Job Id
-      summary: Calculated risk level and score for Competency Job Id
-      operationId: risk-calculation
-      deprecated: false
-      produces:
-      - application/json
-      parameters:
-      - in: path
-        name: job-id
-        type: integer
-        required: true
-      responses:
-        200:
-          description: Auto generated using Swagger Inspector
-          schema:
-            $ref: '#/definitions/RiskCalculatorResponse'
-          headers: {}
-
-  /jcr/{job-id}:
-    get:
-      description: Return calculated Job Compliance Requirements
-      summary: Return calculated Job Compliance Requirements
-      operationId: jcr
-      deprecated: false
-      produces:
-      - application/json
-      parameters:
-      - in: path
-        name: job-id
-        type: integer
-        required: true
-      responses:
-        200:
-          description: Job Compliance Requirements
-          schema:
-            $ref: '#/definitions/JCR'
-          headers: {}
-  /job-assignment-validation:
-    post:
-      description: Job Competency compliance
-      summary: Job Competency compliance
-      operationId: job-assignment-validation
-      deprecated: false
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - $ref: '#/parameters/jobAssignmentValidationRequestParam'
-      responses:
-        200:
-          description: Competency Job Validation Results
-          schema:
-            $ref: '#/definitions/JobAssignmentValidationResponse'
-          headers: {}          
-
-  /assessment-eligibility:
-    post:
-      description: Check if a Gin is eligibile to take an assessment for a Competency Element and Proficiency Level
-      summary: Check if a Gin is eligibile to take an assessment for a Competency Element and Proficiency Level
-      operationId: assessment-eligibility
-      deprecated: false
-      consumes:
-        - application/json
-      produces:
-      - application/json
-      parameters:
-      - $ref: '#/parameters/assessmentEligibilityRequestParam'
-      responses:
-        200:
-          description: Eligibility Report
-          schema:
-            $ref: '#/definitions/AssessmentEligibilityResponse'
-          headers: {}
-
-  /jcr:
-    get:
-      description: Return calculated Job Compliance Requirements
-      summary: Return calculated Job Compliance Requirements
-      operationId: jcrExternal
-      deprecated: false
-      produces:
-      - application/json
-      parameters:
-      - in: query
-        name: externalJobId
-        type: string
-        required: true
-      - in: query
-        name: sourceSystemId
-        type: integer
-        required: true
-      - in: query
-        name: productLineId
-        type: integer
-        required: true  
-      - name: isCompetencySegmentId
-        in: query
-        required: false
-        type: boolean
-        description: ''
-      responses:
-        200:
-          description: Job Compliance Requirements
-          schema:
-            $ref: '#/definitions/JCR'
-          headers: {}
-
-  /candidate-ranking:
-    post:
-      description: Competency Candidate ranking report for a Job
-      summary: Competency Candidate ranking report for a Job
-      operationId: candidate-ranking
-      deprecated: false
-      consumes:
-        - application/json
-      produces:
-      - application/json
-      parameters:
-      - $ref: '#/parameters/candidateRankingRequestParam'
-      responses:
-        200:
-          description: Competency Candidate ranking report
-          schema:
-            $ref: '#/definitions/CandidateRankingReportResponse'
-          headers: {}
-
-  /proficiency-expiration/{gin}:
-    get:
-      description: Proficiency Expiration Report
-      summary: Proficiency Expiration Report
-      operationId: proficiency-expiration
-      deprecated: false
-      produces:
-      - application/json
-      parameters:
-      - in: path
-        name: gin
-        type: integer
-        required: true
-      responses:
-        200:
-          description: Proficiency Expiration Report
-          schema:
-            $ref: '#/definitions/CandidateProficiencyReportResponse'
-          headers: {}
-
+        - ApiKeyHeader: []
+host: "fdp.slb.com"
+basePath: '/market-to-cash'
 securityDefinitions:
-  APIKeyHeader:
-    type: "apiKey"
-    name: "x-apikey"
-    in: "header"
-    
-parameters:
-  competencyPayloadParam:
-    in: body
-    name: body
-    required: true
-    description: ''
-    schema:
-      $ref: '#/definitions/CompetencyJobPayload'
-      
-  jobAssignmentValidationRequestParam:
-    in: body
-    name: body
-    required: true
-    description: ''
-    schema:
-      $ref: '#/definitions/JobAssignmentValidationRequest'
-      
-  assessmentEligibilityRequestParam:
-    in: body
-    name: body
-    required: true
-    description: ''
-    schema:
-      $ref: '#/definitions/AssessmentEligibilityRequest'
-      
-  candidateRankingRequestParam:
-    in: body
-    name: body
-    required: true
-    description: ''
-    schema:
-      $ref: '#/definitions/CandidateRankingReportRequest'
-          
+  ApiKeyHeader:
+    type: apiKey
+    in: header
+    name: x-apikey
+paths:
+  /jobs:
+    get:
+      summary: Return a list of Jobs along with the respective header attributes.
+      operationId: listJobs
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      description: Get a list of Jobs/Operational Activities with respective header attribute.
+      tags:
+        - JobsList
+      parameters:
+        - name: jobActiveFrom
+          in: query
+          description: Jobs/Operational Activities active from date (Inclusive)  in RFC3339 full-date format represented in UTC. Example="2019-01-01"
+          required: true
+          type: string
+          format: date
+        - name: jobActiveTo
+          in: query
+          description: Jobs/Operational Activities active to date (Inclusive)  in RFC3339 full-date format represented in UTC. Example="2019-01-01"
+          required: true
+          type: string
+          format: date
+        - name: jobStatus
+          in: query
+          description: Status of the Jobs/Operational Activities being retrieved.
+          required: true
+          type: string
+          enum: [Opportunity, Sold, Unconfirmed, Confirmed, Cancelled, CancelledNonSLB, Completed, Planned, InProgress, StandBy, OperationallyComplete, Forecast P90]
+        - name: productLine
+          in: query
+          description: Productline of Jobs/Operational Activities being retrieved. 
+          required: false
+          type: string
+          enum: [WS, WL, TST, DNM, ALS, CPS, WG, BDT, MI]
+        - name: isoCountryCode
+          in: query
+          description: The two digit ISO country code. Example=US
+          required: false
+          type: string  
+        - name: districtId
+          in: query
+          description: District ID of Jobs/Operational Activities being retrieved. 
+          required: false
+          type: string
+      responses:
+        200:
+          description: "200 response - OK"
+          schema: 
+            $ref: '#/definitions/JobHeaderList'
+        400:
+          description: "The mandatory parameter is missing."
+          schema: 
+            $ref: '#/definitions/Error'
+        401:
+          description: "The endpoint cannot be reached because the request is not authorized."
+          schema: 
+            $ref: '#/definitions/Error'
+        403:
+          description: "The request's authorizations don't match the required ones needed to access the resource. Permissions denied."
+          schema: 
+            $ref: '#/definitions/Error'
+        404:
+          description: "Incorrect uri specified to consume service."
+          schema: 
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema: 
+            $ref: '#/definitions/Error'
+  /jobs/{jobId}:
+    get:
+      summary: Returns jobs header attributes information for specified job ID.
+      operationId: getJobInfo
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      description: Get job ID specific header attributes.
+      tags:
+        - JobInfo
+      parameters:
+        - name: jobId
+          in: path
+          description: Unique identifier of a Job. 
+          required: true
+          type: string
+      responses:
+        200:
+          description: "200 response - OK"
+          schema: 
+            $ref: '#/definitions/JobHeader'
+        400:
+          description: "The mandatory parameter is missing."
+          schema: 
+            $ref: '#/definitions/Error'
+        401:
+          description: "The endpoint cannot be reached because the request is not authorized."
+          schema: 
+            $ref: '#/definitions/Error'
+        403:
+          description: "The request's authorizations don't match the required ones needed to access the resource. Permissions denied."
+          schema: 
+            $ref: '#/definitions/Error'
+        404:
+          description: "Incorrect uri specified to consume service."
+          schema: 
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema: 
+            $ref: '#/definitions/Error'
+
 definitions:
- 
-  JobId:
-    title: JobId
-    type: integer
-  RiskCalculatorResponse:
-    title: RiskCalculatorResponse
+  JobHeaderList:
     type: object
+    required:
+        - JobHeader
     properties:
-      RiskScore:
-        type: number
-        format: double
-      RiskLevel:
-        type: integer
-        format: int32
-      JobId:
-        type: number
-        format: double
-  AssessmentEligibilityResponse:
-    title: AssessmentEligibilityResponse
-    type: object
-    properties:
-      CandidateProficiencyResults:
-        $ref: '#/definitions/CandidateProficiencyResults'
-  CandidateProficiencyResults:
-    title: CandidateProficiencyResults
-    type: object
-    properties:
-      CandidateProficiencyResult:
-        type: array
-        items:
-          $ref: '#/definitions/CandidateProficiencyResult'
-  CandidateProficiencyResult:
-    title: CandidateProficiencyResult
-    type: object
-    properties:
-      CompetencyUnitID:
-        type: integer
-        format: int32
-      AssessmentPathways:
-        $ref: '#/definitions/AssessmentPathways'
-      competencyElementSapID:
-        type: integer
-        format: int32
-      segment:
-        type: string
-      proficiencyLevelID:
-        type: integer
-        format: int32
-      competencyUnitSapID:
-        type: integer
-        format: int32
-      candidateGIN:
-        type: integer
-        format: int32
-      CompetencyElementID:
-        type: integer
-        format: int32
-  AssessmentPathways:
-    title: AssessmentPathways
-    type: object
-    properties:
-      AssessmentPathway:
-        type: array
-        items:
-          $ref: '#/definitions/AssessmentPathway'
-  AssessmentPathway:
-    title: AssessmentPathway
-    type: object
-    properties:
-      startingProficiencyLevel:
-        type: string
-      attemptedProficiencyLevel:
-        type: string
-      attemptedOn:
-        type: number
-        format: double
-      assessmentEligible:
-        type: string
-      exceptions:
-        type: array
-        items:
-          $ref: '#/definitions/Exception'
-      target:
-        type: string
-  Exception:
-    title: Exception
-    type: object
-    properties:
-      reason:
-        type: string
-      reasonCode:
-        type: integer
-        format: int32
-  JCR:
-    title: JCR
-    type: object
-    properties:
-      subJobSection:
-        $ref: '#/definitions/SubJobSection'
-      segment:
-        type: string
-      jobSection:
-        $ref: '#/definitions/JobSection'
-  SubJobSection:
-    title: SubJobSection
-    type: object
-    properties:
-      subJobs:
+      JobHeader:
         type: object
-  JobSection:
-    title: JobSection
+        items:
+          $ref: '#/definitions/JobHeader'
+  JobHeader:
     type: object
     properties:
-      externalJobID:
+      operationalactivityid:
         type: string
-      ID:
+        description: "Relevant only to FDP. Unique identifier for a Operational Activity that is defined in FDP"
+        example: A.100000.01.01
+      jobid:
+        type: string
+        description: "Job ID, a unique Job identifier specific to the source systems (iDIstrict, FDP, JMP)"
+        example: 2796906, J.100000.01, 30860
+      description:
+        type: string
+        description: "Operational Activity description as captured during the creation of Operational Activity. Applies to FDP only"
+        example: azid_8.5in Logging
+      startdate:
+        type: string
+        format: date
+        description: "Jobs/Operational Activities start date (UTC) (Inclusive) in RFC3339 full-date format represented in UTC."
+        example: 2019-09-01
+      enddate:
+        type: string
+        description: "Jobs/Operational Activities end date (UTC) (Inclusive) in RFC3339 full-date format represented in UTC."
+        example: 2019-09-01
+      jobgroup:
+        type: string
+        description: "Comcat job group"
+        example: WLES
+      jobtype:
+        type: string
+        description: "Comcat Job Type"
+        example: ES-OH-NO
+      extjobtypeid:
+        type: integer
+        description: "Comcat job type Id"
+        example: 1037
+      bookingstatus:
+        type: string
+        description: "Booking Status of a Jobs/Operational Activities"
+        example: Confirmed
+      createddate:
+        type: string
+        format: date-time
+        description: "Job/Operational Activity created date (UTC) in RFC3339 full-date format represented in UTC."
+        example: 2019-07-09T23:00:00Z
+      createdby:
+        type: string
+        description: "Alias of LDAP user who created the job"
+        example: JohnP
+      lastmodifieddate:
+        type: string
+        format: date-time
+        description: "Job/Operational Activity modified date (UTC) in RFC3339 full-date format represented in UTC."
+        example: 2019-07-09T23:00:00Z
+      lastmodifiedby:
+        type: string
+        description: "Alias of LDAP user who modified the job"
+        example: JohnP
+      districtid:
+        type: string
+        description: "Unique ID provided to a district."
+        example: 529, WL-BRGN
+      districtname:
+        type: string
+        description: "Name of the district"
+        example: WL BERGEN
+      districttimezonedisplayname:
+        type: string
+        description: "District timezone display name"
+        example: West Asia Standard Time
+      districttimezonestandardname:
+        type: string
+        description: "District timezone name"
+        example: West Asia Standard Time
+      customerid:
+        type: string
+        description: "Customer Id (Seibel Id)"
+        example: 1-19VYR5, 1+28B+6
+      customersapittid:
+        type: integer
+        description: "SAPITTID of Customer"
+        example: 30012156
+      customername:
+        type: string
+        description: "Name of customer"
+        example: TURKMENGAS STATE CONCERN
+      customerRigcountry:
+        type: string
+        description: "Country of customer where the rig belongs to"
+        example: NORWAY
+      customerBillTocountry:
+        type: string
+        description: "Country of customer billed to"
+        example: NORWAY
+      customeragreementname:
+        type: string
+        description: "Siebel ID for Customer Agreement"
+        example: 1-2378619137
+      geomarketname:
+        type: string
+        description: "Name of Geomarket"
+        example: RCA
+      subgeomarketname:
+        type: string
+        description: "Name of Sub-Geomarket"
+        example: TKG
+      productline:
+        type: string
+        description: "Product line"
+        example: WL
+      projectid:
+        type: string
+        description: "Project Id under which the Operation is defined. Relevant only to FDP"
+        example: P.6000153
+      operationid:
+        type: string
+        description: "Operation Id under which this Operational Activity is defined in FDP."
+        example: O.6000153.01
+      opstartdate:
+        type: string
+        format: date-time
+        description: "Rig/Operation up/start date (UTC)"
+        example: 2019-09-01T00:00:17.59
+      openddate:
+        type: string
+        format: date-time
+        description: "Rig/Operation down/end date (UTC)"
+        example: 2019-09-01T00:00:17.59
+      operationstatus:
+        type: string
+        description: "Operational status of the Operational Activity. Relevant to FDP only."
+        example: Complete
+      remoteopsrequired:
+        type: boolean 
+        description: "Whether the Job/Operational Activity involves Remote operation"
+        example: true
+      remoteopslocation:
+        type: string
+        description: "Remote operation location of Job/Operational Activity in case where Remote Ops is enabled"
+        example: ROC-USA-MID
+      Wells:
+        type: array
+        description: list of well/s for this operational activity.
+        items:
+          $ref: '#/definitions/Well'
+      rignumber:
         type: number
-        format: double
-      items:
-        type: array
-        items:
-          $ref: '#/definitions/JobItems'
-  JobItems:
-    title: JobItems
-    type: object
-    properties:
-      competencyElement:
+        description: "Rig number"
+        example: 63006656
+      extrigid:
         type: string
-      role:
+        description: "CRM rig ID"
+        example: 1-1B1M43V
+      rigname:
         type: string
-      roleID:
-        type: integer
-        format: int32
-      competencyUnitName:
+        description: "Name of the Rig"
+        example: Patterson
+      rigtype:
         type: string
-      proficiencyLevel:
+        description: "Type of Rig"
+        enum: [LAND RIG, JACKUP, SEMI-SUBMERSIBLE, TENDER ASSISTED, Barges, Drillship, Fixed Platform, Floating Platform, HYBRID, INLAND BARGE, MAST, SLANT RIG, TLP, Coiled Tubing Unit, Intervention Vessel, Unaccessible to SLB, New Build, Cementing Fleet, Stimulation Vessel]
+      rigenvironment:
         type: string
-      competencyElementID:
-        type: integer
-        format: int32
-      competencyUnitID:
-        type: integer
-        format: int32
-      roleType:
-        type: string
-  JobAssignmentValidationRequest:
-    title: CompetencyRESTRestValidateAssignmentReportRequest
-    type: object
-    properties:
-      jobId:
-        type: string
-      roleCandidatesList:
-        type: array
-        items:
-          $ref: '#/definitions/RoleCandidatesList'
-  RoleCandidatesList:
-    title: RoleCandidatesList
-    type: object
-    properties:
-      Role:
-        type: string
-      Candidates:
-        $ref: '#/definitions/Candidates'
-  Candidates:
-    title: Candidates
-    type: object
-    properties:
-      Candidate:
-        type: array
-        items:
-          type: string
-  JobAssignmentValidationResponse:
-    title: JobAssignmentValidationResponse
-    type: object
-    properties:
-      IndividualRoles:
-        type: array
-        items:
-          $ref: '#/definitions/Role'
-      JobID:
+        description: "Rig operating environment"
+        enum: [Offshore - Deepwater, Offshore - Shallow, Land, Swamp/Inland Waters, Rig Less,Rig Unknown]
+      probablity:
         type: number
-        format: double
-      CollectiveRoles:
-        type: array
-        items:
-          $ref: '#/definitions/Role'
-      Compliance:
-        type: boolean
-      ProcessSafetyCompliance:
-        type: boolean
-      SubJobs:
-        type: array
-        items:
-          type: string
-  Role:
-    title: Role
-    type: object
-    properties:
-      Role:
+        description: "Probability of job execution"
+        example: 100
+      padname:
         type: string
-      Compliance:
-        type: boolean
-      ProcessSafetyCompliance:
-        type: boolean
-      Competencies:
-        $ref: '#/definitions/Competencies'
-      roleID:
-        type: integer
-        format: int32
-      People:
-          $ref: '#/definitions/Person'
-      Reason:
-        type: string
-  Person:
-    title: Person
-    type: object
-    properties:
-      Person:
-        type: array
-        items: 
-          $ref: '#/definitions/PersonItem'
-  PersonItem:
-    title: PersonItem
-    type: object
-    properties:
-      Gin:
-        type: integer
-        format: int32
-      Compliance:
-        type: boolean
-      ProcessSafetyCompliance:
-        type: boolean
-      Reason: 
-        type: string
-      Competencies: 
-        $ref: '#/definitions/Competencies'
-        
-  Competencies:
-    title: Competencies
-    type: object
-    properties:
-      Competency:
-        type: array
-        items:
-          $ref: '#/definitions/Competency'
-  Competency:
-    title: Competency
-    type: object
-    properties:
-      competencyElementName:
-        type: string
-      proficiencyLevel:
-        type: string
-      competencyElementID:
-        type: integer
-        format: int32
-      competencyUnitID:
-        type: integer
-        format: int32
-      CompetencyElementSapID:
-        type: integer
-        format: int32
-      ComplianceLevel:
-        type: string
-  CandidateRankingReportRequest:
-    title: CandidateRankingReportRequest
-    type: object
-    properties:
-      jobId:
-        type: string
-      candidates:
-        type: array
-        items:
-          $ref: '#/definitions/RoleCandidates'
-      multiShift:
-        type: string
-  RoleCandidates:
-    title: RoleCandidates
-    type: object
-    properties:
-      role:
-        type: string
-      candidateGINs:
-        type: array
-        items:
-          type: string
-  CandidateRankingReportResponse:
-    title: CandidateRankingReportResponse
-    type: object
-    properties:
-      jobId:
+        description: "Pad name"
+        example: Masters Unit 2AH 3AH 6SH 7SH
+      padwellmaster:
         type: number
-        format: double
-      multiShift:
-        type: boolean
-      externalJobId:
+        description: "Pad master number"
+        example: 0065893632
+      ipmprojectnumber:
         type: string
-      jobRequirements:
-        type: array
-        items:
-          $ref: '#/definitions/JobRequirement'
-  JobRequirement:
-    title: JobRequirement
-    type: object
-    properties:
-      role:
+        description: "IPM Project Number "
+        example: R.00000102.01.01.01
+      saphrsegmentcode:
         type: string
-      requiredElements:
-        type: array
-        items:
-          $ref: '#/definitions/RequiredElement'
-      roleID:
+        description: "SAP HR segment code"
+        example: ALS
+      sapprojectnumber:
+        type: string
+        description: "SAP Project Number of job"
+        example: J.19.031187
+      riskprofilevalue:
         type: integer
-        format: int32
-      externalJobID:
+        description: "Risk profile value"
+        example: 0
+      serviceinstructions:
         type: string
-      subJobID:
-        type: integer
-        format: int32
-      competencies:
-        type: array
+        description: "Service summary of job (specific to WireLine)"
+        example: SLK mechanical services
+      unitsystem:
+        type: string
+        description: "UOM System set for this Job/Operational Activity"
+        example: Metric
+      pppid:
+        type: number
+        description: "PPP ID"
+        example: 118832
+      guid:
+        type: string
+        description: "Global Unique Identifier"
+        example: 709231D1-5901-4E6E-81F5-70425D946B16
+      paginationmetadata:
+        type: object
+        uniqueItems: true
         items:
-          type: string
-  RequiredElement:
-    title: RequiredElement
-    type: object
-    properties:
-      competencyElement:
-        type: string
-      competencyUnitName:
-        type: string
-      proficiencyLevel:
-        type: string
-      competencyElementID:
-        type: integer
-        format: int32
-      competencyUnitID:
-        type: integer
-        format: int32
-  CompetencyJobPayload:
-    title: CompetencyJobPayload
-    type: object
-    properties:
-      AssetCodes:
-        $ref: '#/definitions/AssetCodes'
-      Services:
-        $ref: '#/definitions/Services'
-      Products:
-        $ref: '#/definitions/Products'
-      CompletionCodes:
-        $ref: '#/definitions/CompletionCodes'
-      SegmentId:
-        type: string
-      JobAttributes:
-        $ref: '#/definitions/JobAttributes'
-      PenetratorCodes:
-        $ref: '#/definitions/PenetratorCodes'
-      ExternalJobId:
-        type: string
-      SpsServiceLines:
-        $ref: '#/definitions/SpsServiceLines'
-      SourceSystemId:
-        type: string
-      ExtendedJobTypes:
-        $ref: '#/definitions/ExtendedJobTypes'
-      ServiceTypes:
-        $ref: '#/definitions/ServiceTypes'
-  AssetCodes:
-    title: AssetCodes
-    type: object
-    properties:
-      AssetCode:
-        type: array
+          $ref: '#/definitions/paginationmetadata'
+      links:
+        type: object
+        uniqueItems: true
         items:
-          $ref: '#/definitions/AssetCode'
-  AssetCode:
-    title: AssetCode
+          $ref: '#/definitions/links'
+  Well:
     type: object
     properties:
-      AssetCodeName:
+      wellid: 
         type: string
-  Services:
-    title: Services
-    type: object
-    properties:
-      Service:
-        type: array
-        items:
+        description: "Well ID (Siebel Id)"
+        example: 1-1KS1SO9
+      wellmasternumber:
+        type: number
+        description: "Well master number"
+        example: 630156369
+      wellname:
+        type: string
+        description: "Name of well"
+        example: OCS-P0240 HENRY 7B
+      wellfield:
+        type: string
+        description: "Well field"
+        example: Ninian
+      wellenvironment:
+        type: string
+        description: "Well environment"
+        example: Offshore - Shallow
+      welltype:
+        type: string
+        description: "Type of well"
+        example: Development
+      wellsapittid:
+        type: number
+        description: "SAP ITT ID of Well"
+        example: 65899148
+      wellapiuwi:
+        type: string
+        description: "API-UWI  of Well"
+        example: 50-029-21031-01-00
+  Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
           type: integer
           format: int32
-  Products:
-    title: Products
-    type: object
-    properties:
-      Product:
-        type: array
-        items:
-          $ref: '#/definitions/Product'
-  Product:
-    title: Product
-    type: object
-    properties:
-      ProductName:
-        type: string
-      ProductId:
-        type: string
-  CompletionCodes:
-    title: CompletionCodes
-    type: object
-    properties:
-      CompletionCode:
-        type: array
-        items:
-          type: integer
-          format: int32
-  JobAttributes:
-    title: JobAttributes
-    type: object
-    properties:
-      JobAttribute:
-        type: array
-        items:
-          $ref: '#/definitions/JobAttribute'
-  JobAttribute:
-    title: JobAttribute
-    type: object
-    properties:
-      AttributeValue:
-        type: string
-      AttributeId:
-        type: string
-  PenetratorCodes:
-    title: PenetratorCodes
-    type: object
-    properties:
-      PenetratorCode:
-        type: array
-        items:
-          type: integer
-          format: int32
-  SpsServiceLines:
-    title: SpsServiceLines
-    type: object
-    properties:
-      SpsServiceLine:
-        type: array
-        items:
-          $ref: '#/definitions/SpsServiceLine'
-  SpsServiceLine:
-    title: SpsServiceLine
-    type: object
-    properties:
-      TypeId:
-        type: integer
-        format: int32
-      SubTypeId:
-        type: integer
-        format: int32
-      GroupId:
-        type: integer
-        format: int32
-  ExtendedJobTypes:
-    title: ExtendedJobTypes
-    type: object
-    properties:
-      ExtendedJobType:
-        type: array
-        items:
+          example: 1001
+        message:
           type: string
-  ServiceTypes:
-    title: ServiceTypes
-    type: object
+          example: Unexpected error occured. Please try again.
+  links:
+    required:
+      - pageOf
     properties:
-      ServiceType:
-        type: array
-        items:
-          type: string
-  Exceptions:
+      pageOf:
+        type: string
+        format: uri
+        description: Link to the collection
+      next:
+        type: string
+        format: uri
+        description: Link to the next page in the paginated collection
+      previous:
+        type: string
+        format: uri
+        description: Link to the previous page in the paginated collection
+  paginationmetadata:
+    required:
+      - pageSize
+      - currentPage
+      - totalPages
+      - totalCount
     properties:
-      reason:
-        type: string
-      reasonCode:
+      pageSize:
         type: integer
-        format: int32
-      ruleName:
-        type: string
-      rulePackage:
-        type: string
-  AttemptedPathways:
-    properties:
-      attemptedOn:
-        type: string
-      attemptedProficiencyLevel:
-        type: string
-      exceptions:
-        type: array
-        items:
-          $ref: '#/definitions/Exceptions'
-      startingProficiencyLevel:
-        type: string
-      success:
-        type: boolean
-      target:
-        type: string
-  PCPItems:
-    properties:
-      attemptedPathways:
-        type: array
-        items:
-          $ref: '#/definitions/AttemptedPathways'
-      awardedOn:
-        type: string
-      competencyElement:
-        type: string
-      competencyElementID:
+        description: Count of items per page
+      currentPage:
         type: integer
-        format: int32
-      competencyElementSapID:
+        description: Current page number
+      totalPages:
         type: integer
-        format: int32
-      competencyUnitID:
-        type: integer
-        format: int32
-      competencyUnitName:
-        type: string
-      competencyUnitSapID:
-        type: integer
-        format: int32
-      gin:
-        type: integer
-        format: int32
-      proficiencyLevel:
-        type: string
-  PcpResponse:
-    properties:
-      gin:
-        type: integer
-        format: int32
-      items:
-        type: array
-        items:
-          $ref: '#/definitions/PCPItems'
-  AssessmentEligibilityRequest:
-    type: array
-    items:
-      $ref: '#/definitions/AssessmentEligibilityList'
-  AssessmentEligibilityList:
-    properties:
-      CandidateGINs:
-        $ref: '#/definitions/CandidateGINs'
-      competencyElementID:
-        type: string
-      proficiencyLevelID:
-        type: string
-  CandidateGINs:
-    properties:
-      CandidateGIN:
-        type: array
-        items:
-          type: string
-  CandidateProficiencyReportResponse: 
-    type: array
-    items: 
-      type: object
-      properties: 
-        gin: 
-          type: integer
-          format: int32
-        segment: 
-          type: string
-        Proficiencies: 
-          type: object
-          properties: 
-            Proficiency: 
-              type: array
-              items: 
-                type: object
-                properties: 
-                  competencyElementSapID: 
-                    type: integer
-                    format: int32
-                  competencyUnitSapID: 
-                    type: integer
-                    format: int32
-                  proficiencyLevelID: 
-                    type: integer
-                    format: int32
-                  CompetencyElementID: 
-                    type: integer
-                    format: int32
-                  CompetencyUnitID: 
-                    type: integer
-                    format: int32
-                  Criterias: 
-                    type: object
-                    properties: 
-                      Criteria: 
-                        type: array
-                        items: 
-                          type: object
-                          properties: 
-                            accomplishedRecords: 
-                              type: integer
-                              format: int32
-                            criteria: 
-                              type: string
-                            expirationDate: 
-                              type: string
-                            requiredRecords: 
-                              type: integer
-                              format: int32
-                            subType: 
-                              type: string
-                            type: 
-                              type: string
- 
-tags: []
+        description: Total number of pages
+      totalCount:
+        type: number
+        description: Count of total records
