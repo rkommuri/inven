@@ -1,5 +1,4 @@
 swagger: "2.0"
-host: wp-onestim-proppants-dev.appspot.com
 info:
     version: "1.0.0"
     title: First Mile Digitalization API
@@ -9,6 +8,8 @@ produces:
     - "application/json"
 schemes:
     - "https"
+host: evd.apigateway.slb.com
+basePath: /proppants/
 paths:
     /bill-of-lading/{slbBOLNumber}:
         get:
