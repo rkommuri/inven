@@ -11,6 +11,9 @@ info:
     url: https://www.slb.com
 host: evd.apigateway.slb.com
 basePath: /demand-to-deliver
+externalDocs:
+    description: 'Find out more on the SLB Wiki'
+    url: 'https://wiki.slb.com'
 tags:
 - name: AP Invoices
   description: Retrieve AP Invoices across systems
@@ -31,6 +34,8 @@ paths:
       summary: AP Invoices for Schlumberger Corporation.
       description: "This operation allows you to search for an AP Invoice based on the following filters\n\n  - If you do not add any query string parameters(search filters), this operation will will results all the invoices status of all systems.\n  - Use the <b>page</b> parameter to indicate the page you would like returned\n  - Use <b>count</b> to indicate the number of invoices to return in each response. \n  - You can use ?<b>vendorName</b>=\"RICKMAN TRANSPORT LLC\" to limit your search to only invoices for a specific vendor\n  - You can use ?<b>urn</b>='241048223' to search by URN\n  - You can do date range search by using from and end date filters e.g ?<b>invoiceDateFrom</b> >=\"2019-10-01\" and <b>invoiceDateEnd</b> <=\"2019-10-30\"\n   - For Date Search which is for the same day you can specify same value in From and End Date filters e.g ?<b>invoiceDateFrom</b> >=\"2019-10-01\" and <b>invoiceDateEnd</b> <=\"2019-10-01\"\n  - When only From Date is specified for the Date Filter, systems searchs for records all the records from the specified date to last record available in the system which matches the criteria.\"\n - You can use any of these query sting variables in combination to do your search. \n  - Use the search parameter to do a text match search on the Vendor Name. \n  \n\nThe maximum number of items that will be returned in a page will be 1000.\n  \n"
       operationId: apinvoices
+      produces:
+        - application/json
       parameters:
       - name: Authorization
         in: header
@@ -180,6 +185,8 @@ paths:
       summary: Get an invoice by  Invoice Number
       description: This api is used to get the invoice status information by passing <b>invoice-number</b> and if you want to search in a specific system you can pass <b>system</b> as optional query param.
       operationId: apinvoicebyID
+      produces:
+        - application/json
       parameters:
       - name: Authorization
         in: header
