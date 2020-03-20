@@ -1,440 +1,932 @@
-swagger: "2.0"
+openapi: 3.0.1
 info:
-  description: "\n# What does this API do?\nThis API will allow you to perform a search on all of the accounts payable invoices at Schluberger and retrieve detailed information about an invoice with invoice number and additional filters. \n\n# \n"
-  version: 1.0.0
-  title: AP Invoices API
+  title: Well Bore API
+  description: |
+    API to Schlumberger's wellbore Master Data
   contact:
-    name: Hardik Dave
-    email: hdave@slb.com
-  license:
-    name: '(c) Copyright Schlumberger, unpublished work, created 02/06/2020'
-    url: https://www.slb.com
-host: evd.apigateway.slb.com
-basePath: /demand-to-deliver
-externalDocs:
-    description: 'Find out more on the SLB Wiki'
-    url: 'https://wiki.slb.com'
+    name: Walter Eardley
+    email: WEardley@slb.com
+  version: 1.0.0
+servers:
+- url: https://apigateway.evp.it.slb.com/mdm_wellboresdata
 tags:
-- name: AP Invoices
-  description: Retrieve AP Invoices across systems
+- name: wellbore
+  description: Operations on wellbore Master Data  
 schemes:
-- https
-consumes:
-- application/json
-produces:
-- application/json
-security:
-- APIKeyHeader: []
-- OAuth2: []
+  - https
+host: apigateway.evp.it.slb.com
+basePath: /mdm_wellboresdata
+
 paths:
-  /invoices:
+  /wellbores:
     get:
       tags:
-      - AP Invoices
-      summary: AP Invoices for Schlumberger Corporation.
-      description: "This operation allows you to search for an AP Invoice based on the following filters\n\n  - If you do not add any query string parameters(search filters), this operation will will results all the invoices status of all systems.\n  - Use the <b>page</b> parameter to indicate the page you would like returned\n  - Use <b>count</b> to indicate the number of invoices to return in each response. \n  - You can use ?<b>vendorName</b>=\"RICKMAN TRANSPORT LLC\" to limit your search to only invoices for a specific vendor\n  - You can use ?<b>urn</b>='241048223' to search by URN\n  - You can do date range search by using from and end date filters e.g ?<b>invoiceDateFrom</b> >=\"2019-10-01\" and <b>invoiceDateEnd</b> <=\"2019-10-30\"\n   - For Date Search which is for the same day you can specify same value in From and End Date filters e.g ?<b>invoiceDateFrom</b> >=\"2019-10-01\" and <b>invoiceDateEnd</b> <=\"2019-10-01\"\n  - When only From Date is specified for the Date Filter, systems searchs for records all the records from the specified date to last record available in the system which matches the criteria.\"\n - You can use any of these query sting variables in combination to do your search. \n  - Use the search parameter to do a text match search on the Vendor Name. \n  \n\nThe maximum number of items that will be returned in a page will be 1000.\n  \n"
-      operationId: apinvoices
-      produces:
-        - application/json
+      - wellbore
+      summary: Find wellbores by attribute
+      description: Search for a list of wellbores following criteria passed as parameters.
+        If you specify a combination of attributes, attributes for the same property
+        are ORed and attributes in different properties are ANDed.
+      operationId: findBywellboreAttributes
       parameters:
-      - name: Authorization
-        in: header
-        description: This is the value of your OAuth2 Bearer token. The value should be structured like "Bearer" + " " + OAuth Token
-        required: false
-        type: string
-      - name: Accept
-        in: header
-        description: The requested format for the return payload
-        required: true
-        type: string
-        enum:
-        - application/json
-      - name: x-slb-invoicenumber
-        in: header
-        description: Enter a value if you would like to track your transactions through the Apigee monitoring tool (Apigee BAM)
-        required: false
-        type: string
-      - name: x-slb-vendorname
-        in: header
-        description: Enter a value if you would like to track your transactions through the Apigee monitoring tool (Apigee BAM)
-        required: false
-        type: string
-      - name: x-slb-companycode
-        in: header
-        description: Enter a value if you would like to track your transactions through the Apigee monitoring tool (Apigee BAM)
-        required: false
-        type: string
-      - name: system
+      - name: wellboreName
         in: query
-        description: ERP System or Operations System where transactions are performed. When System is used is selection parameter for requesting invoices, always use invoice status and other combination to reduce the volume of data.
-        required: false
-        type: string
-        enum:
-        - SAPITT
-        - Lawson
-        - OracleMI
-        - Accenture-DFM
-      - name: urn
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: wellboreNumber
         in: query
-        description: URN is barcode used to Scanning and MySupplierPortal
-        required: false
-        type: string
-      - name: invoice-number
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: wellboreDesc
         in: query
-        description: Number which uniquely identifies an invoice document, this may be array of mutiple unique invoice numbers
-        type: array
-        collectionFormat: multi
-        uniqueItems: true
-        items:
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: fieldName
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: UWI
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: UWIType
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: subGeomarketCode
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: surfaceCountry
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: surfaceCounty
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: surfaceStatePrvnc
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: surfacePostal
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: surfacePostalExtn
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: surfaceLatitude
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: surfaceLongitude
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: surfaceArea
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: surfaceBlockNumber
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: surfaceLeaseNumber
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: bottomLatitude
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: bottomLongitude
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: bottomArea
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: bottomBlock
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: bottomLease
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: classfication
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: completionType
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: drilledFor
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: OperatingEnv
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: status
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: type
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: permitNumber
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: completionDate
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: firstProductionDate
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: permitIssueDate
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: plugAbandonedDate
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: spudDate
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: totalDepthDate
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: deviationCategory
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: maxDeviation
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: expectedMaxDeviation
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: totalDepth
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: expectedTotalDepth
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: tvd
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: expectedTvd
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: waterDepth
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: lastUpdateDate
+        in: query
+        description: For Initial data load – lastUpdateDate 01/01/1900 00:00:00 (To get Data begining of Time). For Incremental data load – lastUpdateDate 12/05/2019 11:30:00 (Capture data changes in MDM from given Timestamp).
+        schema:
           type: string
-      - name: vendor-id
-        in: query
-        description: Account Number of Vendor or Creditor. Specifies an alphanumeric key that uniquely identifies the vendor in the system
-        required: false
-        type: string
-      - name: vendor-name
-        in: query
-        description: Name of the vendor (external supplier) or supplying plant from which the materials are to be procured.
-        required: false
-        type: string
-      - name: company-code
-        in: query
-        description: The company code is an organizational unit within financial accounting that represents a legal entity
-        required: false
-        type: string
-      - name: geo-market
-        in: query
-        description: A geographical area where Schlumberger does business. It may consist of a country, a part of a country, or multiple countries, forming a region where business goals and business practices are very similar
-        required: false
-        type: string
-      - name: invoice-date-from
-        in: query
-        description: Specifies the date on which the invoice was initiated by vendor (external supplier). Diplayed on Vendor invoice document
-        required: false
-        type: string
-        format: date
-        x-chance: date
-      - name: invoice-date-end
-        in: query
-        description: Specifies the date on which the invoice was initiated by vendor (external supplier). Diplayed on Vendor invoice document
-        required: false
-        type: string
-        format: date
-        x-chance: date
-      - name: invoice-receive-date-from
-        in: query
-        description: Specifies the date on which the invoice was received.
-        required: false
-        type: string
-        format: date
-        x-chance: date
-      - name: invoice-receive-date-end
-        in: query
-        description: Specifies the date on which the invoice was received.
-        required: false
-        type: string
-        format: date
-        x-chance: date
-      - name: count
-        in: query
-        description: the number of records to return in a single page of search results
-        required: false
-        type: integer
-        default: 1000
-        format: int32
       - name: page
         in: query
-        description: the specific page number.
-        required: false
-        type: integer
-        default: 1
-        format: int32
+        description: Page Number
+        schema:
+          type: integer
+      - name: size
+        in: query
+        description: Page Size
+        schema:
+          type: integer
       responses:
         200:
-          description: OK
-          schema:
-            $ref: '#/definitions/APInvoices'
-        401:
-          description: Unauthorized Request
-          schema:
-            $ref: '#/definitions/Error'
-        403:
-          description: Unauthorized Request
-          schema:
-            $ref: '#/definitions/Error'
-        404:
-          description: Requested Item Not Found
-          schema:
-            $ref: '#/definitions/Error'
-        429:
-          description: Request Limit Exceeded
-          schema:
-            $ref: '#/definitions/Error'
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/wellboreCollection'
+        400:
+          description: Invalid tag
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
         500:
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'
-        503:
-          description: Service Unavailable
-          schema:
-            $ref: '#/definitions/Error'
-  /invoices/{invoice-number}:
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+      - api_key: []
+  /wellbores/{wellboreId}:
     get:
       tags:
-      - AP Invoices
-      summary: Get an invoice by  Invoice Number
-      description: This api is used to get the invoice status information by passing <b>invoice-number</b> and if you want to search in a specific system you can pass <b>system</b> as optional query param.
-      operationId: apinvoicebyID
-      produces:
-        - application/json
+      - wellbore
+      summary: Find wellbores by Wellbore Identifier
+      description: Returns a single wellbore
+      operationId: getwellboreByKey
       parameters:
-      - name: Authorization
-        in: header
-        description: This is the value of your OAuth2 Bearer token. The value should be structured like "Bearer" + " " + OAuth Token
-        required: false
-        type: string
-      - name: Accept
-        in: header
-        description: The requested format for the return payload
-        required: true
-        type: string
-        enum:
-        - application/json
-      - name: x-slb-invoicenumber
-        in: header
-        description: Enter a value if you would like to track your transactions through the Apigee monitoring tool (Apigee BAM)
-        required: false
-        type: string
-      - name: invoice-number
+      - name: wellboreId
         in: path
-        description: Number which uniquely identifies an invoice document.
+        description: Id of wellbore to return
         required: true
-        type: string
-      - name: system
-        in: query
-        description: ERP System or Operations System where transactions are performed. When System is used is selection parameter for requesting invoices, always use invoice status and other combination to reduce the volume of data.
-        required: false
-        type: string
-        enum:
-        - SAPITT
-        - Lawson
-        - OracleMI
-        - Accenture-DFM
-
+        schema:
+          type: integer
+          format: int64
       responses:
         200:
-          description: OK
-          schema:
-            $ref: '#/definitions/APInvoiceList'
-        401:
-          description: Unauthorized Request
-          schema:
-            $ref: '#/definitions/Error'
-        403:
-          description: Unauthorized Request
-          schema:
-            $ref: '#/definitions/Error'
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/wellbore'
+        308:
+          description: The wellbore identifier requested has been superseded.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: Invalid Id
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
         404:
-          description: Requested Item Not Found
-          schema:
-            $ref: '#/definitions/Error'
-        429:
-          description: Request Limit Exceeded
-          schema:
-            $ref: '#/definitions/Error'
+          description: wellbore not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+      - api_key: []  
+  /wellbores/{sourceId}:
+    get:
+      tags:
+      - wellbore
+      summary: Find wellbores by Source Identifier
+      description: Returns a single wellbore
+      operationId: getwellboreBySourceKey
+      parameters:
+      - name: sourceKey
+        in: query
+        description: Source System Identifier
+        required: true
+        schema:
+          type: string
+      - name: ssrId
+        in: query
+        description: Ssr Id of the Source System
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/wellbore'
+        404:
+          description: wellbore not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
         500:
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'
-        503:
-          description: Service Unavailable
-          schema:
-            $ref: '#/definitions/Error'
-securityDefinitions:
-  APIKeyHeader:
-    type: apiKey
-    name: x-apikey
-    in: header
-  OAuth2:
-    type: oauth2
-    tokenUrl: https://{host}/oauth2/token
-    flow: application
-definitions:
-  APInvoices:
-    allOf:
-    - $ref: '#/definitions/Paging'
-    - type: object
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+      - api_key: []
+  /wellbores/{sourceSystem}:
+    get:
+      tags:
+      - wellbore
+      summary: Find wellbores by Source System
+      description: Search for a list of wellbores by Source System and Timestamp
+      operationId: getwellboreBySourceSystem
+      parameters:
+      - name: srcSsrId
+        in: query
+        description: Ssr Id of the Source System
+        required: true
+        schema:
+          type: string
+      - name: tgtSsrId
+        in: query
+        description: Ssr Id of the Target System
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page Number
+        schema:
+          type: integer
+      - name: size
+        in: query
+        description: Page Size
+        schema:
+          type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/wellboreCollection'
+        400:
+          description: Invalid tag
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+      - api_key: []
+components:
+  schemas:
+    wellbore:
+      required:
+      - wellboreId
+      type: object
       properties:
-        data:
-          $ref: '#/definitions/APInvoice'
-  APInvoiceList:
-      type: array
-      items:
-          $ref: '#/definitions/APInvoice'
-          
-  Error:
-    type: object
-    properties:
-      title:
-        type: string
-        example: User First Name cannot be empty
-        description: A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.
-      detail:
-        type: string
-        example: Enter a value in the First Name field. If you do not know the first name then enter a space. The First Name field cannot be submitted with a null.
-        description: A human-readable explanation specific to this occurrence of the problem. Like title, this field’s value can be localized.
-  Paging:
-    type: object
-    properties:
-      next:
-        type: string
-        example: https://{host}/demand-to-deliver/invoices?page=3&count=1000
-        description: Link to the next page
-      prev:
-        type: string
-        example: https://{host}/demand-to-deliver/invoices?page=1&count=1000
-        description: Link to the previous page. Only if the current page is greater than 1.
-      page:
-        type: integer
-        format: int32
-        example: 1
-        description: current page in the pages collection
-      itemsPerPage:
-        type: integer
-        format: int32
-        example: 1000
-        description: number of records on a page
-      resultsCount:
-        type: integer
-        format: int32
-        example: 31635
-        description: total number of results returned for search
-      totalPages:
-        type: integer
-        format: int32
-        example: 32
-        description: total number of pages in the collection
-      nextPage:
-        type: integer
-        format: int32
-        example: 3
-        description: next page
-      prevPage:
-        type: integer
-        format: int32
-        example: 2
-        description: previous page
-  APInvoice:
-    type: object
-    properties:
-      invoiceStatus:
-        type: string
-        example: UNPAID-READY FOR PAYMENT
-        description: Processing Status of the Invoice Document (Pending, Paid, rejected etc.)
-      system:
-        type: string
-        example: Accenture - DFM
-        description: ERP System or Operations System where transactions are performed
-      invoiceNumber:
-        type: string
-        example: "5106036407"
-        description: Number which uniquely identifies an invoice document.
-      urn:
-        type: string
-        example: "241048223"
-        description: 'URN is barcode used to Scanning and MySupplierPortal '
-      usdAmount:
-        type: number
-        format: double
-        example: 115000.0
-        description: Invoice Line Item amount in group currency for Schlumberger (USD).
-      transactionAmount:
-        type: number
-        format: double
-        example: 115000.0
-        description: Invoice Line Item amount in the currency in which a document is posted.
-      documentStatus:
-        type: string
-        example: POSTED
-        description: 'Document Status of the Invoice '
-      currency:
-        type: string
-        example: USD
-        description: The unit in which the Invoice amount is expressed. The Invoice amount must have a currency (for example, US dollars)
-      vendorID:
-        type: string
-        example: "1000009131"
-        description: Account Number of Vendor or Creditor. Specifies an alphanumeric key that uniquely identifies the vendor in the system
-      vendorName:
-        type: string
-        example: RICKMAN TRANSPORT LLC
-        description: Name of the vendor (external supplier) or supplying plant from which the materials are to be procured.
-      geoMarket:
-        type: string
-        example: SCA
-        description: 'A geographical area where Schlumberger does business. It may consist of a country, a part of a country, or multiple countries, forming a region where business goals and business practices are very similar. '
-      area:
-        type: string
-        example: MEA
-        description: A region of the world where Schlumberger does business. An Area is composed of several GeoMarkets.
-      country:
-        type: string
-        example: Romania
-        description: A country is a region that is identified as a distinct entity in political geography.
-      companyCode:
-        type: string
-        example: "1507"
-        description: The company code is an organizational unit within financial accounting that represents a legal entity
-      invoiceDate:
-        type: string
-        example: 9/10/2019
-        description: Specifies the date on which the invoice was initiated by vendor (external supplier). Diplayed on Vendor invoice document
-      invoiceReceiveDate:
-        type: string
-        example: 9/10/2019
-        description: Specifies the date on which the invoice was received.
-      invoiceDueDate:
-        type: string
-        format: date
-        example: 9/12/2019
-        description: Specifies the due date for payment of the retention (when the payment must reach the receiver).
-      productLine:
-        type: string
-        example: MSP
-        description: 'A part of the Schlumberger business dedicated to developing and marketing a certain set of technologies that are delivered to our clients by the GeoMarkets. Related Product Lines are combined into a group. '
-      paymentDate:
-        type: string
-        format: date
-        example: 9/16/2019
-        description: 'Probable Payment Date '
-      paidAmount:
-        type: number
-        format: double
-        example: 115000.0
-        description: Amount for which the payment transfer medium was issued.
-      paymentRef:
-        type: string
-        example: "36621"
-        description: The payment reference contains a key for vendor line items. The payment reference you specify is passed on to the relevant financial institute. When you are processing your account statement, you can use the payment reference to determine which items you have paid and then clear them.
-      rejectionDate:
-        type: string
-        format: date
-        example: 9/14/2019
-        description: Specifies the date on which the invoice was rejected.
-      rejectionReason:
-        type: string
-        example: RtV - As advised by SLB Point of Contact
-        description: Reason for rejecting a particular invoice document.
-      pendingReason:
-        type: string
-        example: Manual Check Needed for Indexing Lines (PO)
-        description: Reason for  particular invoice document being in status of pending for further checks and actions.
-      currentOwnerAliasOrGIN:
-        type: string
-        example: "00408450"
-        description: GIN number/Alias of Current agent or owner who has current document processing workflow
-      currentOwnerFullName:
-        type: string
-        example: 'Patricia Pacheco '
-        description: Name of Current agent or owner who has current document processing workflow
-
+        self:
+          type: string
+          description: Absolute path link to the wellbore
+          format: uri
+        kind:
+          type: string
+          description: Kind of resource
+          example: wellbore
+        wellboreId:
+          type: string
+          description: Identifier of the MDM wellbore record. This identifier is guaranteed to be unique, but may change in the lifetime
+            of the resource. In this case, the API issues a redirect so the internal or external upstream sources can change their identifiers
+            to express, for example, that wellbore records have merged.
+          example: "18386083"
+        citation:
+          $ref: '#/components/schemas/citation'
+        createDate:
+          type: string
+          description: Internal Schlumberger record creation date
+          format: date-time
+        lastupdateDate:
+          type: string
+          description: Date of the last update to record
+          format: date-time
+        wellboreName:
+          type: string
+          description: Name assigned to the wellbore. It may be a special name or the name of the property to which the wellbore belongs. The wellbore number is concatenated to the end of the wellbore name to form the wellbore description.
+          example: LATHAM DRAW 14-25D
+        wellboreNumber:
+          type: string
+          description: Unique identifier number assigned to the wellbore
+          example: "76"
+        wellboreDesc:
+          type: string
+          description: Name assigned to the wellbore. This may be a special name or the name of the property to which the wellbore belongs. wellboreNumber will be concatentated to the end of the wellboreName to form wellboreDescription.
+          example: LATHAM DRAW 14-25D
+        fieldName:
+          type: string
+          description: Name of the field in which the wellbore is located
+          example: SOUTHLAND
+        UWI:
+          type: string
+          description: Governement or client issued identifier used to uniquely identify the wellbore within the country
+          example: 30-025-36606-00-00
+        UWIType:
+          type: string
+          description: Unique well identifier type driven by the country the wellbore is located
+          example: API_wellbore_FULL_CODE
+        surfaceCountry:
+          type: string
+          description: Two-letter country code for the location the wellbore resides. See https://countrycode.org/ for a list.
+          example: US
+        surfaceCounty:
+          type: string
+          description: County code for the location the wellbore resides. See https://www.worldatlas.com/aatlas/ctycodes.htm for a list.
+          example: Sweetwater County
+        surfaceStatePrvnc:
+          type: string
+          description: Two-letter province (region/state/province/governorate) abbreviation for the location the wellbore resides
+          example: AB
+        surfacePostal:
+          type: string
+          description: Five-digit postal code extension for the location the wellbore resides in North America
+          example: "73481"
+        surfacePostalExtn:
+          type: string
+          description: Four-digit postal code extension for the location the wellbore resides in North America
+          example: "8010"
+        surfaceLatitude:
+          type: string
+          description: Latitude of the surface wellbore location expressed in decimal degrees in the WGS84 coordinate system
+            (equivalent to EPSG:4326)
+          example: "41.68292"
+        surfaceLongitude:
+          type: string
+          description: Longitude of the surface wellbore location expressed in decimal degrees in the WGS84 coordinate system
+          example: -107.94132
+        surfaceArea:
+          type: string
+          description: Area abbreviation assigned to the OCS for the surface location of the wellbore
+          example: VR (Vitrinite Reflectivity)
+        surfaceBlockNumber:
+          type: string
+          description: Three-digit surface area number assigned to the surface area of the leased block location that identifies a subdivision of an Official Protraction Diagram
+          example: "267"
+        surfaceLeaseNumber:
+          type: string
+          description: Number assigned to a lease by the regulatory agency having jurisdiction over mineral activity in the territory where the lease is located
+          example: G17913
+        bottomLatitude:
+          type: string
+          description: Latitude of the bottom wellbore location expressed in decimal degrees       
+          example: "28.50279"
+        bottomLongitude:
+          type: string
+          description: Longitude of the bottom wellbore location expressed in decimal degrees
+          example: -92.3626
+        bottomArea:
+          type: string
+          description: Area abbreviation assigned to the OCS for the lowest or deepest part of the wellbore
+          example: VR
+        bottomBlock:
+          type: string
+          example: "267"
+        bottomLease:
+          type: string
+          example: G17913
+        classfication:
+          type: string
+          example: DEVELOPMENT
+        completionType:
+          type: string
+          example: CASEDHOLE COMPLETION
+        drilledFor:
+          type: string
+          example: INJECTION
+        OperatingEnv:
+          type: string
+          description: Operating Environment of the Well
+          example: LAND
+        status:
+          type: string
+          description:
+          example: PRODUCING
+        type:
+          type: string
+          description:
+          example: PRIMARY
+        permitNumber:
+          type: number
+          description:
+          example: 2374743.0
+        completionDate:
+          type: string
+          description: Date the wellbore completion string was installed. The completion string is the assembly of downhole tubulars and equipment required to enable safe and efficient production from an oil or gas well. 
+          format: date
+        firstProductionDate:
+          type: string
+          description: Date the wellbore first produced fluid.          
+          format: date
+        permitIssueDate:
+          type: string
+          description: Date the permit was first issued for the wellbore           
+          format: date
+        plugAbandonedDate:
+          type: string
+          description: Date the wellbore was not in use because it ceased to produce natural gas or because it was a dry hole (<i>Plugged</i> or <i>Abandoned</i>)
+          format: date
+        spudDate:
+          type: string
+          description: Date the main drill bit began drilling into the ground. In offshore cases, the spud date occurs when the drill began working on the sea floor, not when it first breaches the water.          
+          format: date
+        totalDepthDate:
+          type: string
+          description: Date the wellbore drilling operations reached the total depth          
+          format: date
+        deviationCategory:
+          type: string
+          description: Deviation category for the angle at which the wellbore diverges from vertical           
+          example: <i>HIGH</i> deviation would be 15-80 degrees. <i>HORIZONTAL</i> deviation is greater than 80 degrees. <i>VERTICAL</i> deviation is less than or equal to 15 degrees.
+        maxDeviation:
+          type: string
+          description: Maximum drilling deviation the wellbore reached.          
+          example: 70
+        maxDeviationUOM:
+          type: string
+          description: Unit of measure used for the maximum drilling deviation angle the wellbore can reach
+          example: FT
+        expectedMaxDeviation:
+          type: string
+          description: Maximum drilling deviation angle the wellbore is <i>expected</> to reach           
+          example: 80
+        expectedMaxDeviationUOM:
+          type: string
+          description: Unit of measure for the maximum drilling deviation angle the wellbore is <i>expected</i> to reach           
+          example: FT
+        totalDepth:
+          type: string
+          description: Total depth a wellbore reached measured along the actual wellbore path          
+          example: 18250
+        totalDepthUOM:
+          type: string
+          description: Unit of measure used for the total depth reached in a wellbore measured along the actual wellbore path           
+          example: FT
+        expectedTotalDepth:
+          type: string
+          description: Total depth a wellbore is <i>expected</i> to reach measured along the wellbore path          
+          example: 3336
+        expectedTotalDepthUOM:
+          type: string
+          description: Unit of measure used for the total depth a wellbore is <i>expected</i> to reach measured along the actual well path
+          example: FT
+        tvd:
+          type: string
+          description: <i>Actual</i> true vertical depth of the wellbore measured from the surface to the bottom of the wellbore in a straight perpendicular line           
+          example: 9803
+        tvdUOM:
+          type: string
+          description: Unit of measure for the <i>actual</i> true vertical depth of the wellbore measure from the surface to the bottom of the wellbore in a straight perpendicular line
+          example: FT
+        expectedTvd:
+          type: string
+          description: <i>Expected</i> vertical depth of wellbore measured from the surface to the bottom of the wellbore in a straight vertical line
+          example: 2564
+        expectedTvdUOM:
+          type: string
+          description: Unit of measure for the <i>expected</i> total vertical depth of wellbore. This is the measurement from the surface to the bottom of the wellbore in a straight vertical line.
+          example: FT
+        waterDepth:
+          type: string
+          description: Depth of the water at an offshore wellbore location measured from the water level to the mud line
+          example: 37575459318
+        waterDepthUOM:
+          type: string
+          description: Unit of measure used for the depth of water at an offshore wellbore measured from the water level to the mud line
+          example: FT
+        wellboreCrossReference:
+          $ref: '#/components/schemas/wellboreCrossReference'
+      xml:
+        name: wellbore
+    citation:
+      required:
+      - creation
+      - format
+      - originator
+      - title
+      type: object
+      properties:
+        title:
+          maxLength: 2000
+          type: string
+          description: One-line description/name of the object This is the equivalent
+            in ISO 19115 of CI_Citation.title Legacy DCGroup - title
+          example: 6507/7-A-42
+        originator:
+          maxLength: 64
+          type: string
+          description: Name (or other human-readable identifier) of the person who
+            initially originated the object or document in the source application.
+            If that information is not available, then this is the user who created
+            the format file. The originator remains the same as the object is subsequently
+            edited.  This is the equivalent in ISO 19115 to the CI_Individual.name
+            or the CI_Organization.name of the citedResponsibleParty whose role is
+            "originator". Legacy DCGroup - author
+          example: 1411_input
+        creation:
+          type: string
+          description: Date and time the document was created in the source application
+            or, if that information is not available, when it was saved to the file.
+            This is the equivalent of the ISO 19115 CI_Date where the CI_DateTypeCode
+            = "creation" Format YYYY-MM-DDThh:mm:ssZ[+/-]hh:mm Legacy DCGroup - created
+          format: date-time
+        format:
+          maxLength: 2000
+          type: string
+          description: Software or service that was used to originate the object and
+            the file format created. Must be human and machine readable and unambiguously
+            identify the software by including the company name, software name and
+            software version. This is the equivalent in ISO 19115 to the distributionFormat.MD_Format.
+            The ISO format for this is [vendor:applicationName]/fileExtension where
+            the application name includes the version number of the application. SIG
+            Implementation Notes - Legacy DCGroup from v1.1 - publisher - fileExtension
+            is not relevant and will be ignored if present. - vendor and applicationName
+            are mandatory.
+          example: Mapforce
+      description: 'An ISO 19115 EIP-derived set of metadata attached to all specializations
+        of AbstractObject to ensure the traceability of each individual independent
+        (top level) element.      '
+    paging:
+      required:
+      - pageOf
+      type: object
+      properties:
+        pageOf:
+          type: string
+          description: Link to the collection
+          format: uri
+        next:
+          type: string
+          description: Link to the next page in the paginated collection
+          format: uri
+        previous:
+          type: string
+          description: Link to the previous page in the paginated collection
+          format: uri
+    wellboreCrossReference:
+      required:
+      - key
+      - kind
+      - self
+      - srcSysCd
+      - ssrId
+      - uid
+      - winnerFlag
+      type: object
+      properties:
+        self:
+          type: string
+          description: Link to the current wellbore cross-reference
+          format: uri
+        kind:
+          type: string
+          description: Kind of resource
+          example: wellboreCrossReference
+        uid:
+          type: string
+          description: Unique identifier for a wellbore cross-reference
+        key:
+          type: string
+          description: Source System Key
+        srcSysCd:
+          type: string
+          description: Source System Name
+        ssrId:
+          type: string
+          description: Ssr Id
+        winnerFlag:
+          type: string
+          description: Winner Flag set for Winning Source System
+      description: Cross-reference of the wellbore record
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+    wellboreCollection:
+      required:
+      - kind
+      - pageOf
+      - self
+      type: object
+      properties:
+        self:
+          type: string
+          description: Link to the current page of the paginated collection
+          format: uri
+        kind:
+          type: string
+          description: Kind of resource
+        pageOf:
+          type: string
+          description: Link to the collection
+          format: uri
+        next:
+          type: string
+          description: Link to the next page in the paginated collection
+          format: uri
+        previous:
+          type: string
+          description: Link to the previous page in the paginated collection
+          format: uri
+        count:
+          type: integer
+          description: Count of wellbores in the API Response
+          format: uri
+        contents:
+          type: array
+          items:
+            $ref: '#/components/schemas/wellbore'
+        paging:
+          $ref: '#/components/schemas/paging'
+      xml:
+        name: wellboreCollection
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: x-apikey
+      in: header
+    wellbore_auth:
+      type: apiKey
+      name: wellbore_auth
+      in: header
+    Wellfield_auth:
+      type: apiKey
+      name: wellField_auth
+      in: header
