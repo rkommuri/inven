@@ -4,7 +4,6 @@ info:
   description: |
     API to Schlumberger's wellbore Master Data
   contact:
-    name: Walter Eardley
     email: WEardley@slb.com
   version: 1.0.0
 servers:
