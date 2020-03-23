@@ -1,0 +1,1673 @@
+swagger: "2.0"
+info:
+  title: EHC API
+  description: ""
+  version: v2
+  contact:
+    name: Vikram Shantaraj
+    email: VShantharaj@slb.com
+  license:
+    name: "(c) Copyright Schlumberger, unpublished work, created 02/06/2020"
+    url: https://www.slb.com
+host: apigateway.evp.it.slb.com
+basePath: /a2r/ehc-historian/
+externalDocs:
+  description: "Find out more on the SLB Wiki"
+  url: "https://wiki.slb.com"
+tags:
+  - name: EHC API
+    description: Get all global channel definitions
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+security:
+  - APIKeyHeader: []
+paths:
+  /v2/channel-definitions:
+    get:
+      tags:
+      - ChannelDefinitions
+      summary: Get all global channel definitions (channel catalog)
+      produces:
+        - application/json
+        - text/csv
+      parameters:
+        - in: query
+          name: "page[number]"
+          default: "1"
+          type: integer
+          format: int32
+        - in: query
+          name: "page[size]"
+          default: "25"
+          type: integer
+          format: int32
+        - in: query
+          name: sort
+          default: "-ModifiedDate"
+          type: string
+          format: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/channelDefinitionCollection"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/errorDocument"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      security:
+        - APIKeyHeader: []
+    post:
+      tags:
+      - ChannelDefinitions
+      summary: Add new global channel definition
+      consumes:
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - application/json
+        - text/csv
+      parameters:
+        - in: body
+          name: body
+          description: "channel defintion"
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+              name:
+                type: string
+              dimension:
+                type: string
+              uom:
+                type: string
+              type:
+                type: string
+              legalClassification:
+                type: string
+              createdBy:
+                type: string
+              createdDate:
+                format: date-time
+                type: string
+              modifiedBy:
+                type: string
+              modifiedDate:
+                format: date-time
+                type: string
+              id:
+                type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/channelDefinition"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/errorDocument"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      security:
+        - APIKeyHeader: []
+  # /v2/channel-definitions/{code}:
+  #   put:
+  #     tags:
+  #       - ChannelDefinitions
+  #     summary: Update global channel definition
+  #     consumes:
+  #       - application/json-patch+json
+  #       - application/json
+  #       - text/json
+  #       - application/*+json
+  #     produces:
+  #       - application/json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: code
+  #         description: ""
+  #         required: true
+  #         type: string
+  #       - in: body
+  #         name: body
+  #         description: ""
+  #         schema:
+  #           $ref: "#/definitions/jToken"
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           type: string
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+
+  #   get:
+  #     tags:
+  #       - ChannelDefinitions
+  #     summary: Get global channel definition by code
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: code
+  #         description: ""
+  #         required: true
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/channelDefinition"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+
+  #   delete:
+  #     tags:
+  #       - ChannelDefinitions
+  #     summary: Delete global channel definition
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: code
+  #         description: ""
+  #         required: true
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           type: string
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+
+  # /v2/equipment/{equipmentWkeId}/channels:
+  #   get:
+  #     tags:
+  #       - Channels
+  #     summary: Get raw channel data for multiple codes of single equipment
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: equipmentWkeId
+  #         description: "Well-known entity id of equipment. Example: 101053903:280"
+  #         required: true
+  #         type: string
+  #       - in: query
+  #         name: start
+  #         description: Time period start (accepts multiple formats). Latest 24h period with data by default.
+  #         type: string
+  #       - in: query
+  #         name: end
+  #         description: Time period end (accepts multiple formats). Latest 24h period with data by default.
+  #         type: string
+  #       - in: query
+  #         name: codes
+  #         description: Comma-separated channel codes. Returns all possible codes by default.
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/multipleChannels"
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+
+  #   post:
+  #     tags:
+  #       - Channels
+  #     summary: Posting raw channel data for multiple codes of single equipment
+  #     consumes:
+  #       - application/json-patch+json
+  #       - application/json
+  #       - text/json
+  #       - application/*+json
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: equipmentWkeId
+  #         description: Well-known entity id of equipment.
+  #         required: true
+  #         type: string
+  #       - in: body
+  #         name: body
+  #         description: JSON object. See example.
+  #         schema:
+  #           $ref: "#/definitions/jToken"
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           type: string
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+
+  # /v2/equipment/{equipmentWkeId}/channels/{channelCode}:
+  #   get:
+  #     tags:
+  #       - Channels
+  #     summary: Get raw channel data for single code of single equipment
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: equipmentWkeId
+  #         description: Well-known entity id of equipment.
+  #         required: true
+  #         type: string
+  #       - in: path
+  #         name: channelCode
+  #         description: Channel code.
+  #         required: true
+  #         type: string
+  #       - in: query
+  #         name: start
+  #         description: Time period start (accepts multiple formats). Latest 24h period with data if empty.
+  #         type: string
+  #       - in: query
+  #         name: end
+  #         description: Time period end (accepts multiple formats). Latest 24h period with data if empty.
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/singleChannel"
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+
+  # /v2/equipment/{equipmentWkeId}/channel-definitions:
+  #   get:
+  #     tags:
+  #       - Channels
+  #     summary: Get all channel codes with at least one data point for given equipment
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: equipmentWkeId
+  #         description: Well-known entity id of equipment.
+  #         required: true
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           type: array
+  #           items:
+  #             $ref: "#/definitions/channelDefinitionClean"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+
+  # /v2/channels:
+  #   get:
+  #     tags:
+  #       - Channels
+  #     summary: Get raw channel data for multiple equipments (bulk get)
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: query
+  #         name: equipmentWkeIdList
+  #         description: Comma-separated well-known entity id list.
+  #         type: string
+  #       - in: query
+  #         name: start
+  #         description: Time period start (accepts multiple formats). Latest 24h period with data if empty.
+  #         type: string
+  #       - in: query
+  #         name: end
+  #         description: Time period end (accepts multiple formats). Latest 24h period with data if empty.
+  #         type: string
+  #       - in: query
+  #         name: codes
+  #         description: Comma-separated channel codes. Returns all possible codes if empty.
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/bulkRows"
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+
+  #   post:
+  #     tags:
+  #       - Channels
+  #     summary: Posting raw channel data for multiple equipments (bulk post)
+  #     consumes:
+  #       - application/json-patch+json
+  #       - application/json
+  #       - text/json
+  #       - application/*+json
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: body
+  #         name: body
+  #         description: JSON object. See example.
+  #         schema:
+  #           $ref: "#/definitions/jToken"
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           type: string
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+
+  # /v2/episodes:
+  #   get:
+  #     tags:
+  #       - Episodes
+  #     summary: Get all episodes
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: query
+  #         name: "page[number]"
+  #         default: "1"
+  #         type: integer
+  #         format: int32
+  #       - in: query
+  #         name: "page[size]"
+  #         default: "25"
+  #         type: integer
+  #         format: int32
+  #       - in: query
+  #         name: sort
+  #         default: "-ModifiedDate"
+  #         type: string
+  #         format: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/episodeCollection"
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+
+  #   post:
+  #     tags:
+  #       - Episodes
+  #     summary: Add new episode along with episodic points
+  #     consumes:
+  #       - application/json-patch+json
+  #       - application/json
+  #       - text/json
+  #       - application/*+json
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: body
+  #         name: body
+  #         description: JSON object. See example.
+  #         schema:
+  #           $ref: "#/definitions/jToken"
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/episode"
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  # /v2/episodes/{id}:
+  #   get:
+  #     tags:
+  #       - Episodes
+  #     summary: Get single episode by id
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: id
+  #         description: Episode id.
+  #         required: true
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/episodeDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #   put:
+  #     tags:
+  #       - Episodes
+  #     summary: Update episode
+  #     consumes:
+  #       - application/json-patch+json
+  #       - application/json
+  #       - text/json
+  #       - application/*+json
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: id
+  #         description: Episode id.
+  #         required: true
+  #         type: string
+  #       - in: body
+  #         name: body
+  #         description: JSON object. See example.
+  #         schema:
+  #           $ref: "#/definitions/episode"
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           type: string
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #   delete:
+  #     tags:
+  #       - Episodes
+  #     summary: Delete episode
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: id
+  #         description: Episode id.
+  #         required: true
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           type: string
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  # /v2/episodes/{id}/episodic-points:
+  #   get:
+  #     tags:
+  #       - Episodes
+  #     summary: Get episodic points for every equipment in given episode
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: id
+  #         description: Episode id.
+  #         required: true
+  #         type: string
+  #       - in: query
+  #         name: start
+  #         description: Time period start (accepts multiple formats). Episode's start if empty.
+  #         type: string
+  #       - in: query
+  #         name: end
+  #         description: Time period end (accepts multiple formats). Episode's end if empty.
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/episodeRows"
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  # /v2/episodes/{id}/channels:
+  #   get:
+  #     tags:
+  #       - Episodes
+  #     summary: Get raw channel data for every equipment in given episode within its period
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: id
+  #         description: Episode id.
+  #         required: true
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/episodeRows"
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  # /v2/equipment/{equipmentWkeId}/episodic-points:
+  #   get:
+  #     tags:
+  #       - EpisodicPoints
+  #     summary: Get episodic points for multiple codes of single equipment
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: equipmentWkeId
+  #         description: ""
+  #         required: true
+  #         type: string
+  #       - in: query
+  #         name: episodeId
+  #         description: ""
+  #         type: string
+  #       - in: query
+  #         name: start
+  #         description: ""
+  #         type: string
+  #       - in: query
+  #         name: end
+  #         description: ""
+  #         type: string
+  #       - in: query
+  #         name: codes
+  #         description: ""
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/multipleChannels"
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #   post:
+  #     tags:
+  #       - EpisodicPoints
+  #     summary: Posting episodic points for multiple codes of single equipment within specific episode
+  #     consumes:
+  #       - application/json-patch+json
+  #       - application/json
+  #       - text/json
+  #       - application/*+json
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: equipmentWkeId
+  #         description: ""
+  #         required: true
+  #         type: string
+  #       - in: body
+  #         name: body
+  #         description: ""
+  #         schema:
+  #           $ref: "#/definitions/jToken"
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           type: string
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  # /v2/equipment/{equipmentWkeId}/episodic-points/{channelCode}:
+  #   get:
+  #     tags:
+  #       - EpisodicPoints
+  #     summary: Get episodic points for single code of single equipment
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: equipmentWkeId
+  #         description: ""
+  #         required: true
+  #         type: string
+  #       - in: query
+  #         name: episodeId
+  #         description: ""
+  #         type: string
+  #       - in: query
+  #         name: start
+  #         description: ""
+  #         type: string
+  #       - in: query
+  #         name: end
+  #         description: ""
+  #         type: string
+  #       - in: path
+  #         name: channelCode
+  #         description: ""
+  #         required: true
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/singleChannel"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  # /v2/equipment/{equipmentWkeId}/episodic-point-definitions:
+  #   get:
+  #     tags:
+  #       - EpisodicPoints
+  #     summary: Get all channel codes with at least one data point for given equipment
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: equipmentWkeId
+  #         description: ""
+  #         required: true
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           type: array
+  #           items:
+  #             $ref: "#/definitions/channelDefinitionClean"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  # /v2/equipment/{equipmentWkeId}/readings:
+  #   get:
+  #     tags:
+  #       - Readings
+  #     summary: Get readings for multiple codes of single equipment
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: equipmentWkeId
+  #         description: ""
+  #         required: true
+  #         type: string
+  #       - in: query
+  #         name: start
+  #         description: ""
+  #         type: string
+  #       - in: query
+  #         name: end
+  #         description: ""
+  #         type: string
+  #       - in: query
+  #         name: codes
+  #         description: ""
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/multipleChannels"
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #   post:
+  #     tags:
+  #       - Readings
+  #     summary: Posting readings for multiple codes of single equipment
+  #     consumes:
+  #       - application/json-patch+json
+  #       - application/json
+  #       - text/json
+  #       - application/*+json
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: equipmentWkeId
+  #         description: ""
+  #         required: true
+  #         type: string
+  #       - in: body
+  #         name: body
+  #         description: ""
+  #         schema:
+  #           $ref: "#/definitions/jToken"
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           type: string
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  # /v2/equipment/{equipmentWkeId}/readings/{channelCode}:
+  #   get:
+  #     tags:
+  #       - Readings
+  #     summary: Get readings for single code of single equipment
+  #     produces:
+  #       - application/json
+  #       - application/vnd.influx+json
+  #       - text/csv
+  #     parameters:
+  #       - in: path
+  #         name: equipmentWkeId
+  #         description: ""
+  #         required: true
+  #         type: string
+  #       - in: path
+  #         name: channelCode
+  #         description: ""
+  #         required: true
+  #         type: string
+  #       - in: query
+  #         name: start
+  #         description: ""
+  #         type: string
+  #       - in: query
+  #         name: end
+  #         description: ""
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/singleChannel"
+  #       "400":
+  #         description: Bad Request
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  #       "401":
+  #         description: Unauthorized
+  #       "403":
+  #         description: Forbidden
+  #       "404":
+  #         description: Not Found
+  #         schema:
+  #           $ref: "#/definitions/errorDocument"
+  # /v2/equipment/{equipmentWkeId}/reading-definitions:
+    # get:
+    #   tags:
+    #     - Readings
+    #   summary: Get all channel codes with at least one data point for given equipment
+    #   produces:
+    #     - application/json
+    #     - text/csv
+    #   parameters:
+    #     - in: path
+    #       name: equipmentWkeId
+    #       description: ""
+    #       required: true
+    #       type: string
+    #   responses:
+    #     "200":
+    #       description: Success
+    #       schema:
+    #         type: array
+    #         items:
+    #           $ref: "#/definitions/channelDefinitionClean"
+    #     "401":
+    #       description: Unauthorized
+    #     "403":
+    #       description: Forbidden
+    #     "404":
+    #       description: Not Found
+    #       schema:
+    #         $ref: "#/definitions/errorDocument"
+definitions:
+  sortDirection:
+    format: int32
+    enum:
+      - 0
+      - 1
+    type: integer
+  intPtr:
+    type: object
+  layoutKind:
+    format: int32
+    enum:
+      - 0
+      - 2
+      - 3
+    type: integer
+  structLayoutAttribute:
+    type: object
+    properties:
+      value:
+        allOf:
+          - $ref: "#/definitions/layoutKind"
+        readOnly: true
+      typeId:
+        type: object
+        readOnly: true
+  runtimeTypeHandle:
+    type: object
+    properties:
+      value:
+        allOf:
+          - $ref: "#/definitions/intPtr"
+        readOnly: true
+  sortSpec:
+    type: object
+    properties:
+      direction:
+        allOf:
+          - $ref: "#/definitions/sortDirection"
+        readOnly: true
+      descriptiveName:
+        type: string
+        readOnly: true
+      fieldName:
+        type: string
+        readOnly: true
+      friendlyName:
+        type: string
+        readOnly: true
+      shortFieldName:
+        type: string
+        readOnly: true
+  link:
+    type: object
+    properties:
+      href:
+        type: string
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      rel:
+        type: string
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  links:
+    type: object
+    properties:
+      actualLinks:
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/link"
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  errorSource:
+    type: object
+    properties:
+      parameter:
+        type: string
+        readOnly: true
+      pointer:
+        type: string
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  error:
+    type: object
+    properties:
+      code:
+        type: string
+        readOnly: true
+      detail:
+        type: string
+        readOnly: true
+      id:
+        type: string
+      links:
+        allOf:
+          - $ref: "#/definitions/links"
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      source:
+        allOf:
+          - $ref: "#/definitions/errorSource"
+        readOnly: true
+      status:
+        type: string
+        readOnly: true
+      title:
+        type: string
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+  model:
+    type: object
+    properties:
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  errorDocument:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: "#/definitions/error"
+        readOnly: true
+      included:
+        type: array
+        items:
+          $ref: "#/definitions/model"
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/link"
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+  channelDefinition:
+    type: object
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+      dimension:
+        type: string
+      uom:
+        type: string
+      type:
+        type: string
+      legalClassification:
+        type: string
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  relationship:
+    type: object
+    properties:
+      data:
+        type: object
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/link"
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  channelDefinitionModel:
+    type: object
+    properties:
+      attributes:
+        allOf:
+          - $ref: "#/definitions/channelDefinition"
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/link"
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      relationships:
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/relationship"
+        readOnly: true
+      type:
+        type: string
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  channelDefinitionCollection:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/channelDefinitionModel"
+        readOnly: true
+      errors:
+        type: array
+        items:
+          $ref: "#/definitions/error"
+        readOnly: true
+      included:
+        type: array
+        items:
+          $ref: "#/definitions/model"
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/link"
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+  jToken:
+    type: array
+    items:
+      $ref: "#/definitions/jToken"
+  timePeriod:
+    type: object
+    properties:
+      start:
+        format: date-time
+        type: string
+        readOnly: true
+      end:
+        format: date-time
+        type: string
+        readOnly: true
+  channelDefinitionClean:
+    type: object
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+      dimension:
+        type: string
+      uom:
+        type: string
+      type:
+        type: string
+      legalClassification:
+        type: string
+  multipleChannelsMeta:
+    type: object
+    properties:
+      equipmentWkeId:
+        type: string
+      materialNumber:
+        type: string
+      serialNumber:
+        type: string
+      equipmentCode:
+        type: string
+      period:
+        allOf:
+          - $ref: "#/definitions/timePeriod"
+      channels:
+        type: array
+        items:
+          $ref: "#/definitions/channelDefinitionClean"
+  hyperLink:
+    description: Hyper Link
+    type: object
+    properties:
+      href:
+        type: string
+      rel:
+        type: string
+  multipleChannels:
+    type: object
+    properties:
+      meta:
+        allOf:
+          - $ref: "#/definitions/multipleChannelsMeta"
+      rows:
+        type: array
+        items:
+          type: array
+          items:
+            type: object
+      links:
+        description: Hyper Link Dictionary
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/hyperLink"
+  singleChannel:
+    type: object
+    properties:
+      equipmentWkeId:
+        type: string
+      materialNumber:
+        type: string
+      serialNumber:
+        type: string
+      equipmentCode:
+        type: string
+      code:
+        type: string
+      uom:
+        type: string
+      dimension:
+        type: string
+      period:
+        allOf:
+          - $ref: "#/definitions/timePeriod"
+      rows:
+        type: array
+        items:
+          type: array
+          items:
+            type: object
+      links:
+        description: Hyper Link Dictionary
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/hyperLink"
+  bulkRows:
+    type: object
+    properties:
+      equipmentList:
+        type: array
+        items:
+          $ref: "#/definitions/multipleChannels"
+      links:
+        description: Hyper Link Dictionary
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/hyperLink"
+  episodeLink:
+    description: EpisodeLink
+    type: object
+    properties:
+      href:
+        type: string
+      rel:
+        type: string
+  episodeRelationship:
+    description: EpisodeRelationship
+    type: object
+    properties:
+      links:
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/episodeLink"
+      data:
+        type: object
+        additionalProperties:
+          type: string
+  episode:
+    description: Episode
+    type: object
+    properties:
+      name:
+        type: string
+      startTime:
+        format: date-time
+        type: string
+      endTime:
+        format: date-time
+        type: string
+      type:
+        type: string
+      parentId:
+        type: string
+      tags:
+        type: array
+        items:
+          type: string
+      equipmentWkeIdList:
+        type: array
+        items:
+          type: string
+      relationships:
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/episodeRelationship"
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  episodeModel:
+    type: object
+    properties:
+      attributes:
+        allOf:
+          - $ref: "#/definitions/episode"
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/link"
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      relationships:
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/relationship"
+        readOnly: true
+      type:
+        type: string
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  episodeCollection:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/episodeModel"
+        readOnly: true
+      errors:
+        type: array
+        items:
+          $ref: "#/definitions/error"
+        readOnly: true
+      included:
+        type: array
+        items:
+          $ref: "#/definitions/model"
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/link"
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+  episodeDocument:
+    type: object
+    properties:
+      data:
+        allOf:
+          - $ref: "#/definitions/episodeModel"
+        readOnly: true
+      errors:
+        type: array
+        items:
+          $ref: "#/definitions/error"
+        readOnly: true
+      included:
+        type: array
+        items:
+          $ref: "#/definitions/model"
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/link"
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+  episodeRows:
+    type: object
+    properties:
+      episodeId:
+        type: string
+      equipmentList:
+        type: array
+        items:
+          $ref: "#/definitions/multipleChannels"
+      links:
+        description: Hyper Link Dictionary
+        type: object
+        additionalProperties:
+          $ref: "#/definitions/hyperLink"
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    name: x-apikey
+    in: header
