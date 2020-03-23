@@ -1,931 +1,1667 @@
-openapi: 3.0.1
+swagger: '2.0'
 info:
-  title: Well Bore API
-  description: |
-    API to Schlumberger's wellbore Master Data
-  contact:
-    email: WEardley@slb.com
-  version: 1.0.0
-servers:
-- url: https://apigateway.evp.it.slb.com/mdm_wellboresdata
-tags:
-- name: wellbore
-  description: Operations on wellbore Master Data  
-schemes:
-  - https
+  title: EHC API
+  description: ""
+  version: v2
 host: apigateway.evp.it.slb.com
-basePath: /mdm_wellboresdata
-
+basePath: /fmp/
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+security:
+- APIKeyHeader: []
 paths:
-  /wellbores:
+  /v2/channel-definitions:
     get:
       tags:
-      - wellbore
-      summary: Find wellbores by attribute
-      description: Search for a list of wellbores following criteria passed as parameters.
-        If you specify a combination of attributes, attributes for the same property
-        are ORed and attributes in different properties are ANDed.
-      operationId: findBywellboreAttributes
+        - ChannelDefinitions
+      summary: Get all global channel definitions (channel catalog)
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
       parameters:
-      - name: wellboreName
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: wellboreNumber
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: wellboreDesc
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: fieldName
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: UWI
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: UWIType
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: subGeomarketCode
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: surfaceCountry
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: surfaceCounty
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: surfaceStatePrvnc
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: surfacePostal
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: surfacePostalExtn
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: surfaceLatitude
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: surfaceLongitude
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: surfaceArea
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: surfaceBlockNumber
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: surfaceLeaseNumber
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: bottomLatitude
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: bottomLongitude
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: bottomArea
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: bottomBlock
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: bottomLease
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: classfication
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: completionType
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: drilledFor
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: OperatingEnv
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: status
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: type
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: permitNumber
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: completionDate
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: firstProductionDate
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: permitIssueDate
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: plugAbandonedDate
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: spudDate
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: totalDepthDate
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: deviationCategory
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: maxDeviation
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: expectedMaxDeviation
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: totalDepth
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: expectedTotalDepth
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: tvd
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: expectedTvd
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: waterDepth
-        in: query
-        style: form
-        explode: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: lastUpdateDate
-        in: query
-        description: For Initial data load – lastUpdateDate 01/01/1900 00:00:00 (To get Data begining of Time). For Incremental data load – lastUpdateDate 12/05/2019 11:30:00 (Capture data changes in MDM from given Timestamp).
-        schema:
-          type: string
-      - name: page
-        in: query
-        description: Page Number
-        schema:
-          type: integer
-      - name: size
-        in: query
-        description: Page Size
-        schema:
-          type: integer
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/wellboreCollection'
-        400:
-          description: Invalid tag
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-        500:
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-      security:
-      - api_key: []
-  /wellbores/{wellboreId}:
-    get:
-      tags:
-      - wellbore
-      summary: Find wellbores by Wellbore Identifier
-      description: Returns a single wellbore
-      operationId: getwellboreByKey
-      parameters:
-      - name: wellboreId
-        in: path
-        description: Id of wellbore to return
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/wellbore'
-        308:
-          description: The wellbore identifier requested has been superseded.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-        400:
-          description: Invalid Id
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-        404:
-          description: wellbore not found
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-      security:
-      - api_key: []  
-  /wellbores/{sourceId}:
-    get:
-      tags:
-      - wellbore
-      summary: Find wellbores by Source Identifier
-      description: Returns a single wellbore
-      operationId: getwellboreBySourceKey
-      parameters:
-      - name: sourceKey
-        in: query
-        description: Source System Identifier
-        required: true
-        schema:
-          type: string
-      - name: ssrId
-        in: query
-        description: Ssr Id of the Source System
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          description: Successful operation
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/wellbore'
-        404:
-          description: wellbore not found
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-        500:
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-      security:
-      - api_key: []
-  /wellbores/{sourceSystem}:
-    get:
-      tags:
-      - wellbore
-      summary: Find wellbores by Source System
-      description: Search for a list of wellbores by Source System and Timestamp
-      operationId: getwellboreBySourceSystem
-      parameters:
-      - name: srcSsrId
-        in: query
-        description: Ssr Id of the Source System
-        required: true
-        schema:
-          type: string
-      - name: tgtSsrId
-        in: query
-        description: Ssr Id of the Target System
-        required: true
-        schema:
-          type: string
-      - name: page
-        in: query
-        description: Page Number
-        schema:
-          type: integer
-      - name: size
-        in: query
-        description: Page Size
-        schema:
-          type: integer
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/wellboreCollection'
-        400:
-          description: Invalid tag
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-        500:
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-      security:
-      - api_key: []
-components:
-  schemas:
-    wellbore:
-      required:
-      - wellboreId
-      type: object
-      properties:
-        self:
-          type: string
-          description: Absolute path link to the wellbore
-          format: uri
-        kind:
-          type: string
-          description: Kind of resource
-          example: wellbore
-        wellboreId:
-          type: string
-          description: Identifier of the MDM wellbore record. This identifier is guaranteed to be unique, but may change in the lifetime
-            of the resource. In this case, the API issues a redirect so the internal or external upstream sources can change their identifiers
-            to express, for example, that wellbore records have merged.
-          example: "18386083"
-        citation:
-          $ref: '#/components/schemas/citation'
-        createDate:
-          type: string
-          description: Internal Schlumberger record creation date
-          format: date-time
-        lastupdateDate:
-          type: string
-          description: Date of the last update to record
-          format: date-time
-        wellboreName:
-          type: string
-          description: Name assigned to the wellbore. It may be a special name or the name of the property to which the wellbore belongs. The wellbore number is concatenated to the end of the wellbore name to form the wellbore description.
-          example: LATHAM DRAW 14-25D
-        wellboreNumber:
-          type: string
-          description: Unique identifier number assigned to the wellbore
-          example: "76"
-        wellboreDesc:
-          type: string
-          description: Name assigned to the wellbore. This may be a special name or the name of the property to which the wellbore belongs. wellboreNumber will be concatentated to the end of the wellboreName to form wellboreDescription.
-          example: LATHAM DRAW 14-25D
-        fieldName:
-          type: string
-          description: Name of the field in which the wellbore is located
-          example: SOUTHLAND
-        UWI:
-          type: string
-          description: Governement or client issued identifier used to uniquely identify the wellbore within the country
-          example: 30-025-36606-00-00
-        UWIType:
-          type: string
-          description: Unique well identifier type driven by the country the wellbore is located
-          example: API_wellbore_FULL_CODE
-        surfaceCountry:
-          type: string
-          description: Two-letter country code for the location the wellbore resides. See https://countrycode.org/ for a list.
-          example: US
-        surfaceCounty:
-          type: string
-          description: County code for the location the wellbore resides. See https://www.worldatlas.com/aatlas/ctycodes.htm for a list.
-          example: Sweetwater County
-        surfaceStatePrvnc:
-          type: string
-          description: Two-letter province (region/state/province/governorate) abbreviation for the location the wellbore resides
-          example: AB
-        surfacePostal:
-          type: string
-          description: Five-digit postal code extension for the location the wellbore resides in North America
-          example: "73481"
-        surfacePostalExtn:
-          type: string
-          description: Four-digit postal code extension for the location the wellbore resides in North America
-          example: "8010"
-        surfaceLatitude:
-          type: string
-          description: Latitude of the surface wellbore location expressed in decimal degrees in the WGS84 coordinate system
-            (equivalent to EPSG:4326)
-          example: "41.68292"
-        surfaceLongitude:
-          type: string
-          description: Longitude of the surface wellbore location expressed in decimal degrees in the WGS84 coordinate system
-          example: -107.94132
-        surfaceArea:
-          type: string
-          description: Area abbreviation assigned to the OCS for the surface location of the wellbore
-          example: VR (Vitrinite Reflectivity)
-        surfaceBlockNumber:
-          type: string
-          description: Three-digit surface area number assigned to the surface area of the leased block location that identifies a subdivision of an Official Protraction Diagram
-          example: "267"
-        surfaceLeaseNumber:
-          type: string
-          description: Number assigned to a lease by the regulatory agency having jurisdiction over mineral activity in the territory where the lease is located
-          example: G17913
-        bottomLatitude:
-          type: string
-          description: Latitude of the bottom wellbore location expressed in decimal degrees       
-          example: "28.50279"
-        bottomLongitude:
-          type: string
-          description: Longitude of the bottom wellbore location expressed in decimal degrees
-          example: -92.3626
-        bottomArea:
-          type: string
-          description: Area abbreviation assigned to the OCS for the lowest or deepest part of the wellbore
-          example: VR
-        bottomBlock:
-          type: string
-          example: "267"
-        bottomLease:
-          type: string
-          example: G17913
-        classfication:
-          type: string
-          example: DEVELOPMENT
-        completionType:
-          type: string
-          example: CASEDHOLE COMPLETION
-        drilledFor:
-          type: string
-          example: INJECTION
-        OperatingEnv:
-          type: string
-          description: Operating Environment of the Well
-          example: LAND
-        status:
-          type: string
-          description:
-          example: PRODUCING
-        type:
-          type: string
-          description:
-          example: PRIMARY
-        permitNumber:
-          type: number
-          description:
-          example: 2374743.0
-        completionDate:
-          type: string
-          description: Date the wellbore completion string was installed. The completion string is the assembly of downhole tubulars and equipment required to enable safe and efficient production from an oil or gas well. 
-          format: date
-        firstProductionDate:
-          type: string
-          description: Date the wellbore first produced fluid.          
-          format: date
-        permitIssueDate:
-          type: string
-          description: Date the permit was first issued for the wellbore           
-          format: date
-        plugAbandonedDate:
-          type: string
-          description: Date the wellbore was not in use because it ceased to produce natural gas or because it was a dry hole (<i>Plugged</i> or <i>Abandoned</i>)
-          format: date
-        spudDate:
-          type: string
-          description: Date the main drill bit began drilling into the ground. In offshore cases, the spud date occurs when the drill began working on the sea floor, not when it first breaches the water.          
-          format: date
-        totalDepthDate:
-          type: string
-          description: Date the wellbore drilling operations reached the total depth          
-          format: date
-        deviationCategory:
-          type: string
-          description: Deviation category for the angle at which the wellbore diverges from vertical           
-          example: <i>HIGH</i> deviation would be 15-80 degrees. <i>HORIZONTAL</i> deviation is greater than 80 degrees. <i>VERTICAL</i> deviation is less than or equal to 15 degrees.
-        maxDeviation:
-          type: string
-          description: Maximum drilling deviation the wellbore reached.          
-          example: 70
-        maxDeviationUOM:
-          type: string
-          description: Unit of measure used for the maximum drilling deviation angle the wellbore can reach
-          example: FT
-        expectedMaxDeviation:
-          type: string
-          description: Maximum drilling deviation angle the wellbore is <i>expected</> to reach           
-          example: 80
-        expectedMaxDeviationUOM:
-          type: string
-          description: Unit of measure for the maximum drilling deviation angle the wellbore is <i>expected</i> to reach           
-          example: FT
-        totalDepth:
-          type: string
-          description: Total depth a wellbore reached measured along the actual wellbore path          
-          example: 18250
-        totalDepthUOM:
-          type: string
-          description: Unit of measure used for the total depth reached in a wellbore measured along the actual wellbore path           
-          example: FT
-        expectedTotalDepth:
-          type: string
-          description: Total depth a wellbore is <i>expected</i> to reach measured along the wellbore path          
-          example: 3336
-        expectedTotalDepthUOM:
-          type: string
-          description: Unit of measure used for the total depth a wellbore is <i>expected</i> to reach measured along the actual well path
-          example: FT
-        tvd:
-          type: string
-          description: <i>Actual</i> true vertical depth of the wellbore measured from the surface to the bottom of the wellbore in a straight perpendicular line           
-          example: 9803
-        tvdUOM:
-          type: string
-          description: Unit of measure for the <i>actual</i> true vertical depth of the wellbore measure from the surface to the bottom of the wellbore in a straight perpendicular line
-          example: FT
-        expectedTvd:
-          type: string
-          description: <i>Expected</i> vertical depth of wellbore measured from the surface to the bottom of the wellbore in a straight vertical line
-          example: 2564
-        expectedTvdUOM:
-          type: string
-          description: Unit of measure for the <i>expected</i> total vertical depth of wellbore. This is the measurement from the surface to the bottom of the wellbore in a straight vertical line.
-          example: FT
-        waterDepth:
-          type: string
-          description: Depth of the water at an offshore wellbore location measured from the water level to the mud line
-          example: 37575459318
-        waterDepthUOM:
-          type: string
-          description: Unit of measure used for the depth of water at an offshore wellbore measured from the water level to the mud line
-          example: FT
-        wellboreCrossReference:
-          $ref: '#/components/schemas/wellboreCrossReference'
-      xml:
-        name: wellbore
-    citation:
-      required:
-      - creation
-      - format
-      - originator
-      - title
-      type: object
-      properties:
-        title:
-          maxLength: 2000
-          type: string
-          description: One-line description/name of the object This is the equivalent
-            in ISO 19115 of CI_Citation.title Legacy DCGroup - title
-          example: 6507/7-A-42
-        originator:
-          maxLength: 64
-          type: string
-          description: Name (or other human-readable identifier) of the person who
-            initially originated the object or document in the source application.
-            If that information is not available, then this is the user who created
-            the format file. The originator remains the same as the object is subsequently
-            edited.  This is the equivalent in ISO 19115 to the CI_Individual.name
-            or the CI_Organization.name of the citedResponsibleParty whose role is
-            "originator". Legacy DCGroup - author
-          example: 1411_input
-        creation:
-          type: string
-          description: Date and time the document was created in the source application
-            or, if that information is not available, when it was saved to the file.
-            This is the equivalent of the ISO 19115 CI_Date where the CI_DateTypeCode
-            = "creation" Format YYYY-MM-DDThh:mm:ssZ[+/-]hh:mm Legacy DCGroup - created
-          format: date-time
-        format:
-          maxLength: 2000
-          type: string
-          description: Software or service that was used to originate the object and
-            the file format created. Must be human and machine readable and unambiguously
-            identify the software by including the company name, software name and
-            software version. This is the equivalent in ISO 19115 to the distributionFormat.MD_Format.
-            The ISO format for this is [vendor:applicationName]/fileExtension where
-            the application name includes the version number of the application. SIG
-            Implementation Notes - Legacy DCGroup from v1.1 - publisher - fileExtension
-            is not relevant and will be ignored if present. - vendor and applicationName
-            are mandatory.
-          example: Mapforce
-      description: 'An ISO 19115 EIP-derived set of metadata attached to all specializations
-        of AbstractObject to ensure the traceability of each individual independent
-        (top level) element.      '
-    paging:
-      required:
-      - pageOf
-      type: object
-      properties:
-        pageOf:
-          type: string
-          description: Link to the collection
-          format: uri
-        next:
-          type: string
-          description: Link to the next page in the paginated collection
-          format: uri
-        previous:
-          type: string
-          description: Link to the previous page in the paginated collection
-          format: uri
-    wellboreCrossReference:
-      required:
-      - key
-      - kind
-      - self
-      - srcSysCd
-      - ssrId
-      - uid
-      - winnerFlag
-      type: object
-      properties:
-        self:
-          type: string
-          description: Link to the current wellbore cross-reference
-          format: uri
-        kind:
-          type: string
-          description: Kind of resource
-          example: wellboreCrossReference
-        uid:
-          type: string
-          description: Unique identifier for a wellbore cross-reference
-        key:
-          type: string
-          description: Source System Key
-        srcSysCd:
-          type: string
-          description: Source System Name
-        ssrId:
-          type: string
-          description: Ssr Id
-        winnerFlag:
-          type: string
-          description: Winner Flag set for Winning Source System
-      description: Cross-reference of the wellbore record
-    ApiResponse:
-      type: object
-      properties:
-        code:
+        - in: query
+          name: 'page[number]'
+          default: '1'
           type: integer
           format: int32
-        type:
-          type: string
-        message:
-          type: string
-    wellboreCollection:
-      required:
-      - kind
-      - pageOf
-      - self
-      type: object
-      properties:
-        self:
-          type: string
-          description: Link to the current page of the paginated collection
-          format: uri
-        kind:
-          type: string
-          description: Kind of resource
-        pageOf:
-          type: string
-          description: Link to the collection
-          format: uri
-        next:
-          type: string
-          description: Link to the next page in the paginated collection
-          format: uri
-        previous:
-          type: string
-          description: Link to the previous page in the paginated collection
-          format: uri
-        count:
+        - in: query
+          name: 'page[size]'
+          default: '25'
           type: integer
-          description: Count of wellbores in the API Response
-          format: uri
-        contents:
+          format: int32
+        - in: query
+          name: sort
+          default: '-ModifiedDate'
+          type: string
+          format: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/channelDefinitionCollection'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - APIKeyHeader: []
+    post:
+      tags:
+        - ChannelDefinitions
+      summary: Add new global channel definition
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: body
+          name: body
+          description: ''
+          schema:
+            $ref: '#/definitions/jToken'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/channelDefinition'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - APIKeyHeader: []
+  '/v2/channel-definitions/{code}':
+    put:
+      tags:
+        - ChannelDefinitions
+      summary: Update global channel definition
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: code
+          description: ''
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: ''
+          schema:
+            $ref: '#/definitions/jToken'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+   
+    get:
+      tags:
+        - ChannelDefinitions
+      summary: Get global channel definition by code
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: code
+          description: ''
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/channelDefinition'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+     
+    delete:
+      tags:
+        - ChannelDefinitions
+      summary: Delete global channel definition
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: code
+          description: ''
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+      
+  '/v2/equipment/{equipmentWkeId}/channels':
+    get:
+      tags:
+        - Channels
+      summary: Get raw channel data for multiple codes of single equipment
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: equipmentWkeId
+          description: 'Well-known entity id of equipment. Example: 101053903:280'
+          required: true
+          type: string
+        - in: query
+          name: start
+          description: Time period start (accepts multiple formats). Latest 24h period with data by default.
+          type: string
+        - in: query
+          name: end
+          description: Time period end (accepts multiple formats). Latest 24h period with data by default.
+          type: string
+        - in: query
+          name: codes
+          description: Comma-separated channel codes. Returns all possible codes by default.
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/multipleChannels'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+     
+    post:
+      tags:
+        - Channels
+      summary: Posting raw channel data for multiple codes of single equipment
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: equipmentWkeId
+          description: Well-known entity id of equipment.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: JSON object. See example.
+          schema:
+            $ref: '#/definitions/jToken'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+     
+  '/v2/equipment/{equipmentWkeId}/channels/{channelCode}':
+    get:
+      tags:
+        - Channels
+      summary: Get raw channel data for single code of single equipment
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: equipmentWkeId
+          description: Well-known entity id of equipment.
+          required: true
+          type: string
+        - in: path
+          name: channelCode
+          description: Channel code.
+          required: true
+          type: string
+        - in: query
+          name: start
+          description: Time period start (accepts multiple formats). Latest 24h period with data if empty.
+          type: string
+        - in: query
+          name: end
+          description: Time period end (accepts multiple formats). Latest 24h period with data if empty.
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/singleChannel'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+     
+  '/v2/equipment/{equipmentWkeId}/channel-definitions':
+    get:
+      tags:
+        - Channels
+      summary: Get all channel codes with at least one data point for given equipment
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: equipmentWkeId
+          description: Well-known entity id of equipment.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/channelDefinitionClean'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+      
+  /v2/channels:
+    get:
+      tags:
+        - Channels
+      summary: Get raw channel data for multiple equipments (bulk get)
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: query
+          name: equipmentWkeIdList
+          description: Comma-separated well-known entity id list.
+          type: string
+        - in: query
+          name: start
+          description: Time period start (accepts multiple formats). Latest 24h period with data if empty.
+          type: string
+        - in: query
+          name: end
+          description: Time period end (accepts multiple formats). Latest 24h period with data if empty.
+          type: string
+        - in: query
+          name: codes
+          description: Comma-separated channel codes. Returns all possible codes if empty.
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/bulkRows'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+     
+    post:
+      tags:
+        - Channels
+      summary: Posting raw channel data for multiple equipments (bulk post)
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: body
+          name: body
+          description: JSON object. See example.
+          schema:
+            $ref: '#/definitions/jToken'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+     
+  /v2/episodes:
+    get:
+      tags:
+        - Episodes
+      summary: Get all episodes
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: query
+          name: 'page[number]'
+          default: '1'
+          type: integer
+          format: int32
+        - in: query
+          name: 'page[size]'
+          default: '25'
+          type: integer
+          format: int32
+        - in: query
+          name: sort
+          default: '-ModifiedDate'
+          type: string
+          format: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/episodeCollection'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    
+    post:
+      tags:
+        - Episodes
+      summary: Add new episode along with episodic points
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: body
+          name: body
+          description: JSON object. See example.
+          schema:
+            $ref: '#/definitions/jToken'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/episode'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/v2/episodes/{id}':
+    get:
+      tags:
+        - Episodes
+      summary: Get single episode by id
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: id
+          description: Episode id.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/episodeDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+    put:
+      tags:
+        - Episodes
+      summary: Update episode
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: id
+          description: Episode id.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: JSON object. See example.
+          schema:
+            $ref: '#/definitions/episode'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+    delete:
+      tags:
+        - Episodes
+      summary: Delete episode
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: id
+          description: Episode id.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+  '/v2/episodes/{id}/episodic-points':
+    get:
+      tags:
+        - Episodes
+      summary: Get episodic points for every equipment in given episode
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: id
+          description: Episode id.
+          required: true
+          type: string
+        - in: query
+          name: start
+          description: Time period start (accepts multiple formats). Episode's start if empty.
+          type: string
+        - in: query
+          name: end
+          description: Time period end (accepts multiple formats). Episode's end if empty.
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/episodeRows'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+  '/v2/episodes/{id}/channels':
+    get:
+      tags:
+        - Episodes
+      summary: Get raw channel data for every equipment in given episode within its period
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: id
+          description: Episode id.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/episodeRows'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+  '/v2/equipment/{equipmentWkeId}/episodic-points':
+    get:
+      tags:
+        - EpisodicPoints
+      summary: Get episodic points for multiple codes of single equipment
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: equipmentWkeId
+          description: ''
+          required: true
+          type: string
+        - in: query
+          name: episodeId
+          description: ''
+          type: string
+        - in: query
+          name: start
+          description: ''
+          type: string
+        - in: query
+          name: end
+          description: ''
+          type: string
+        - in: query
+          name: codes
+          description: ''
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/multipleChannels'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+    post:
+      tags:
+        - EpisodicPoints
+      summary: Posting episodic points for multiple codes of single equipment within specific episode
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: equipmentWkeId
+          description: ''
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: ''
+          schema:
+            $ref: '#/definitions/jToken'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+  '/v2/equipment/{equipmentWkeId}/episodic-points/{channelCode}':
+    get:
+      tags:
+        - EpisodicPoints
+      summary: Get episodic points for single code of single equipment
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: equipmentWkeId
+          description: ''
+          required: true
+          type: string
+        - in: query
+          name: episodeId
+          description: ''
+          type: string
+        - in: query
+          name: start
+          description: ''
+          type: string
+        - in: query
+          name: end
+          description: ''
+          type: string
+        - in: path
+          name: channelCode
+          description: ''
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/singleChannel'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+  '/v2/equipment/{equipmentWkeId}/episodic-point-definitions':
+    get:
+      tags:
+        - EpisodicPoints
+      summary: Get all channel codes with at least one data point for given equipment
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: equipmentWkeId
+          description: ''
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/channelDefinitionClean'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+  '/v2/equipment/{equipmentWkeId}/readings':
+    get:
+      tags:
+        - Readings
+      summary: Get readings for multiple codes of single equipment
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: equipmentWkeId
+          description: ''
+          required: true
+          type: string
+        - in: query
+          name: start
+          description: ''
+          type: string
+        - in: query
+          name: end
+          description: ''
+          type: string
+        - in: query
+          name: codes
+          description: ''
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/multipleChannels'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+    post:
+      tags:
+        - Readings
+      summary: Posting readings for multiple codes of single equipment
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: equipmentWkeId
+          description: ''
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: ''
+          schema:
+            $ref: '#/definitions/jToken'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+  '/v2/equipment/{equipmentWkeId}/readings/{channelCode}':
+    get:
+      tags:
+        - Readings
+      summary: Get readings for single code of single equipment
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: equipmentWkeId
+          description: ''
+          required: true
+          type: string
+        - in: path
+          name: channelCode
+          description: ''
+          required: true
+          type: string
+        - in: query
+          name: start
+          description: ''
+          type: string
+        - in: query
+          name: end
+          description: ''
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/singleChannel'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errorDocument'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+  '/v2/equipment/{equipmentWkeId}/reading-definitions':
+    get:
+      tags:
+        - Readings
+      summary: Get all channel codes with at least one data point for given equipment
+      produces:
+        - application/json
+        - application/vnd.v1+json
+        - application/vnd.influx+json
+        - text/csv
+      parameters:
+        - in: path
+          name: equipmentWkeId
+          description: ''
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/channelDefinitionClean'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errorDocument'
+definitions:
+  sortDirection:
+    format: int32
+    enum:
+      - 0
+      - 1
+    type: integer
+  intPtr:
+    type: object
+  layoutKind:
+    format: int32
+    enum:
+      - 0
+      - 2
+      - 3
+    type: integer
+  structLayoutAttribute:
+    type: object
+    properties:
+      value:
+        allOf:
+          - $ref: '#/definitions/layoutKind'
+        readOnly: true
+      typeId:
+        type: object
+        readOnly: true
+  runtimeTypeHandle:
+    type: object
+    properties:
+      value:
+        allOf:
+          - $ref: '#/definitions/intPtr'
+        readOnly: true
+  sortSpec:
+    type: object
+    properties:
+      direction:
+        allOf:
+          - $ref: '#/definitions/sortDirection'
+        readOnly: true
+      descriptiveName:
+        type: string
+        readOnly: true
+      fieldName:
+        type: string
+        readOnly: true
+      friendlyName:
+        type: string
+        readOnly: true
+      shortFieldName:
+        type: string
+        readOnly: true
+  link:
+    type: object
+    properties:
+      href:
+        type: string
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      rel:
+        type: string
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  links:
+    type: object
+    properties:
+      actualLinks:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/link'
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  errorSource:
+    type: object
+    properties:
+      parameter:
+        type: string
+        readOnly: true
+      pointer:
+        type: string
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  error:
+    type: object
+    properties:
+      code:
+        type: string
+        readOnly: true
+      detail:
+        type: string
+        readOnly: true
+      id:
+        type: string
+      links:
+        allOf:
+          - $ref: '#/definitions/links'
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      source:
+        allOf:
+          - $ref: '#/definitions/errorSource'
+        readOnly: true
+      status:
+        type: string
+        readOnly: true
+      title:
+        type: string
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+  model:
+    type: object
+    properties:
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  errorDocument:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/error'
+        readOnly: true
+      included:
+        type: array
+        items:
+          $ref: '#/definitions/model'
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/link'
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+  channelDefinition:
+    type: object
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+      dimension:
+        type: string
+      uom:
+        type: string
+      type:
+        type: string
+      legalClassification:
+        type: string
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  relationship:
+    type: object
+    properties:
+      data:
+        type: object
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/link'
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  channelDefinitionModel:
+    type: object
+    properties:
+      attributes:
+        allOf:
+          - $ref: '#/definitions/channelDefinition'
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/link'
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      relationships:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/relationship'
+        readOnly: true
+      type:
+        type: string
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  channelDefinitionCollection:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/channelDefinitionModel'
+        readOnly: true
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/error'
+        readOnly: true
+      included:
+        type: array
+        items:
+          $ref: '#/definitions/model'
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/link'
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+  jToken:
+    type: array
+    items:
+      $ref: '#/definitions/jToken'
+  timePeriod:
+    type: object
+    properties:
+      start:
+        format: date-time
+        type: string
+        readOnly: true
+      end:
+        format: date-time
+        type: string
+        readOnly: true
+  channelDefinitionClean:
+    type: object
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+      dimension:
+        type: string
+      uom:
+        type: string
+      type:
+        type: string
+      legalClassification:
+        type: string
+  multipleChannelsMeta:
+    type: object
+    properties:
+      equipmentWkeId:
+        type: string
+      materialNumber:
+        type: string
+      serialNumber:
+        type: string
+      equipmentCode:
+        type: string
+      period:
+        allOf:
+          - $ref: '#/definitions/timePeriod'
+      channels:
+        type: array
+        items:
+          $ref: '#/definitions/channelDefinitionClean'
+  hyperLink:
+    description: Hyper Link
+    type: object
+    properties:
+      href:
+        type: string
+      rel:
+        type: string
+  multipleChannels:
+    type: object
+    properties:
+      meta:
+        allOf:
+          - $ref: '#/definitions/multipleChannelsMeta'
+      rows:
+        type: array
+        items:
           type: array
           items:
-            $ref: '#/components/schemas/wellbore'
-        paging:
-          $ref: '#/components/schemas/paging'
-      xml:
-        name: wellboreCollection
-  securitySchemes:
-    api_key:
-      type: apiKey
-      name: x-apikey
-      in: header
-    wellbore_auth:
-      type: apiKey
-      name: wellbore_auth
-      in: header
-    Wellfield_auth:
-      type: apiKey
-      name: wellField_auth
-      in: header
+            type: object
+      links:
+        description: Hyper Link Dictionary
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/hyperLink'
+  singleChannel:
+    type: object
+    properties:
+      equipmentWkeId:
+        type: string
+      materialNumber:
+        type: string
+      serialNumber:
+        type: string
+      equipmentCode:
+        type: string
+      code:
+        type: string
+      uom:
+        type: string
+      dimension:
+        type: string
+      period:
+        allOf:
+          - $ref: '#/definitions/timePeriod'
+      rows:
+        type: array
+        items:
+          type: array
+          items:
+            type: object
+      links:
+        description: Hyper Link Dictionary
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/hyperLink'
+  bulkRows:
+    type: object
+    properties:
+      equipmentList:
+        type: array
+        items:
+          $ref: '#/definitions/multipleChannels'
+      links:
+        description: Hyper Link Dictionary
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/hyperLink'
+  episodeLink:
+    description: EpisodeLink
+    type: object
+    properties:
+      href:
+        type: string
+      rel:
+        type: string
+  episodeRelationship:
+    description: EpisodeRelationship
+    type: object
+    properties:
+      links:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/episodeLink'
+      data:
+        type: object
+        additionalProperties:
+          type: string
+  episode:
+    description: Episode
+    type: object
+    properties:
+      name:
+        type: string
+      startTime:
+        format: date-time
+        type: string
+      endTime:
+        format: date-time
+        type: string
+      type:
+        type: string
+      parentId:
+        type: string
+      tags:
+        type: array
+        items:
+          type: string
+      equipmentWkeIdList:
+        type: array
+        items:
+          type: string
+      relationships:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/episodeRelationship'
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  episodeModel:
+    type: object
+    properties:
+      attributes:
+        allOf:
+          - $ref: '#/definitions/episode'
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/link'
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      relationships:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/relationship'
+        readOnly: true
+      type:
+        type: string
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+      id:
+        type: string
+  episodeCollection:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/episodeModel'
+        readOnly: true
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/error'
+        readOnly: true
+      included:
+        type: array
+        items:
+          $ref: '#/definitions/model'
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/link'
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+  episodeDocument:
+    type: object
+    properties:
+      data:
+        allOf:
+          - $ref: '#/definitions/episodeModel'
+        readOnly: true
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/error'
+        readOnly: true
+      included:
+        type: array
+        items:
+          $ref: '#/definitions/model'
+        readOnly: true
+      links:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/link'
+        readOnly: true
+      meta:
+        type: object
+        additionalProperties:
+          type: object
+        readOnly: true
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      modifiedBy:
+        type: string
+      modifiedDate:
+        format: date-time
+        type: string
+  episodeRows:
+    type: object
+    properties:
+      episodeId:
+        type: string
+      equipmentList:
+        type: array
+        items:
+          $ref: '#/definitions/multipleChannels'
+      links:
+        description: Hyper Link Dictionary
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/hyperLink'
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    name: x-apikey
+    in: header
