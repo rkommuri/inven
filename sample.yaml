@@ -5,6 +5,12 @@ info:
   version: v2
 host: apigateway.evp.it.slb.com
 basePath: /a2r_ehc_historian/
+externalDocs:
+    description: 'Find out more on the SLB Wiki'
+    url: 'https://wiki.slb.com'
+tags:
+- name: EHC API
+  description: Get all global channel definitions
 schemes:
 - https
 consumes:
