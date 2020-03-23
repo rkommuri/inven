@@ -29,7 +29,7 @@ paths:
   /v2/channel-definitions:
     get:
       tags:
-        - ChannelDefinitions
+      - ChannelDefinitions
       summary: Get all global channel definitions (channel catalog)
       produces:
         - application/json
@@ -67,7 +67,7 @@ paths:
         - APIKeyHeader: []
     post:
       tags:
-        - ChannelDefinitions
+      - ChannelDefinitions
       summary: Add new global channel definition
       consumes:
         - application/json
