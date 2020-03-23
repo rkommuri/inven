@@ -21,8 +21,6 @@ paths:
       summary: Get all global channel definitions (channel catalog)
       produces:
         - application/json
-        - application/vnd.v1+json
-        - application/vnd.influx+json
         - text/csv
       parameters:
         - in: query
@@ -66,8 +64,6 @@ paths:
         - application/*+json
       produces:
         - application/json
-        - application/vnd.v1+json
-        - application/vnd.influx+json
         - text/csv
       parameters:
         - in: body
@@ -90,7 +86,7 @@ paths:
           description: Forbidden
       security:
         - APIKeyHeader: []
-  '/v2/channel-definitions/{code}':
+  /v2/channel-definitions/{code}:
     put:
       tags:
         - ChannelDefinitions
@@ -102,8 +98,6 @@ paths:
         - application/*+json
       produces:
         - application/json
-        - application/vnd.v1+json
-        - application/vnd.influx+json
         - text/csv
       parameters:
         - in: path
@@ -140,7 +134,6 @@ paths:
       summary: Get global channel definition by code
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -169,7 +162,6 @@ paths:
       summary: Delete global channel definition
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -191,15 +183,14 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/errorDocument'
-      
-  '/v2/equipment/{equipmentWkeId}/channels':
+    
+  /v2/equipment/{equipmentWkeId}/channels:
     get:
       tags:
         - Channels
       summary: Get raw channel data for multiple codes of single equipment
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -249,7 +240,6 @@ paths:
         - application/*+json
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -281,14 +271,13 @@ paths:
           schema:
             $ref: '#/definitions/errorDocument'
      
-  '/v2/equipment/{equipmentWkeId}/channels/{channelCode}':
+  /v2/equipment/{equipmentWkeId}/channels/{channelCode}:
     get:
       tags:
         - Channels
       summary: Get raw channel data for single code of single equipment
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -328,14 +317,13 @@ paths:
           schema:
             $ref: '#/definitions/errorDocument'
      
-  '/v2/equipment/{equipmentWkeId}/channel-definitions':
+  /v2/equipment/{equipmentWkeId}/channel-definitions:
     get:
       tags:
         - Channels
       summary: Get all channel codes with at least one data point for given equipment
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -367,7 +355,6 @@ paths:
       summary: Get raw channel data for multiple equipments (bulk get)
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -416,7 +403,6 @@ paths:
         - application/*+json
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -450,7 +436,6 @@ paths:
       summary: Get all episodes
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -494,7 +479,6 @@ paths:
         - application/*+json
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -516,14 +500,13 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
-  '/v2/episodes/{id}':
+  /v2/episodes/{id}:
     get:
       tags:
         - Episodes
       summary: Get single episode by id
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -556,7 +539,6 @@ paths:
         - application/*+json
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -593,7 +575,6 @@ paths:
       summary: Delete episode
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -615,14 +596,13 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/errorDocument'
-  '/v2/episodes/{id}/episodic-points':
+  /v2/episodes/{id}/episodic-points:
     get:
       tags:
         - Episodes
       summary: Get episodic points for every equipment in given episode
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -656,14 +636,13 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/errorDocument'
-  '/v2/episodes/{id}/channels':
+  /v2/episodes/{id}/channels:
     get:
       tags:
         - Episodes
       summary: Get raw channel data for every equipment in given episode within its period
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -689,14 +668,13 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/errorDocument'
-  '/v2/equipment/{equipmentWkeId}/episodic-points':
+  /v2/equipment/{equipmentWkeId}/episodic-points:
     get:
       tags:
         - EpisodicPoints
       summary: Get episodic points for multiple codes of single equipment
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -749,7 +727,6 @@ paths:
         - application/*+json
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -780,14 +757,13 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/errorDocument'
-  '/v2/equipment/{equipmentWkeId}/episodic-points/{channelCode}':
+  /v2/equipment/{equipmentWkeId}/episodic-points/{channelCode}:
     get:
       tags:
         - EpisodicPoints
       summary: Get episodic points for single code of single equipment
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -826,14 +802,13 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/errorDocument'
-  '/v2/equipment/{equipmentWkeId}/episodic-point-definitions':
+  /v2/equipment/{equipmentWkeId}/episodic-point-definitions:
     get:
       tags:
         - EpisodicPoints
       summary: Get all channel codes with at least one data point for given equipment
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -857,14 +832,13 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/errorDocument'
-  '/v2/equipment/{equipmentWkeId}/readings':
+  /v2/equipment/{equipmentWkeId}/readings:
     get:
       tags:
         - Readings
       summary: Get readings for multiple codes of single equipment
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -913,7 +887,6 @@ paths:
         - application/*+json
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -944,14 +917,13 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/errorDocument'
-  '/v2/equipment/{equipmentWkeId}/readings/{channelCode}':
+  /v2/equipment/{equipmentWkeId}/readings/{channelCode}:
     get:
       tags:
         - Readings
       summary: Get readings for single code of single equipment
       produces:
         - application/json
-        - application/vnd.v1+json
         - application/vnd.influx+json
         - text/csv
       parameters:
@@ -990,15 +962,13 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/errorDocument'
-  '/v2/equipment/{equipmentWkeId}/reading-definitions':
+  /v2/equipment/{equipmentWkeId}/reading-definitions:
     get:
       tags:
         - Readings
       summary: Get all channel codes with at least one data point for given equipment
       produces:
         - application/json
-        - application/vnd.v1+json
-        - application/vnd.influx+json
         - text/csv
       parameters:
         - in: path
