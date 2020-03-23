@@ -16,7 +16,7 @@ externalDocs:
     url: 'https://wiki.slb.com'
 tags:
 - name: EHC API
-  description: Get all global channel definitions
+  description: Get all global channel definitionss
 schemes:
 - https
 consumes:
