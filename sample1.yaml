@@ -3,6 +3,12 @@ info:
   title: EHC API
   description: ""
   version: v2
+  contact:
+    name: Vikram Shantaraj
+    email: VShantharaj@slb.com
+  license:
+    name: '(c) Copyright Schlumberger, unpublished work, created 02/06/2020'
+    url: https://www.slb.com
 host: apigateway.evp.it.slb.com
 basePath: /a2r_ehc_historian/
 externalDocs:
