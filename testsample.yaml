@@ -1,4 +1,4 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
   title: SLORG API
   description: |
@@ -20,14 +20,12 @@ tags:
     description: Search SL Org Business Team or Business View by attribute
 schemes:
 - https
-consumes:
-- application/json
 produces:
 - application/json
 security:
 - APIKeyHeader: []
 paths:
-  /findByBusinessTeam:
+  /findbybusinessteam:
     get:
       tags:
         - SL Org
@@ -37,6 +35,8 @@ paths:
         you specify a combination of attributes, attributes for the same
         property are ORed and attributes in different properties are ANDed.
       operationId: findByBusinessTeam
+      produces:
+        - application/json
       parameters:
         - name: code
           in: query
@@ -139,7 +139,7 @@ paths:
           description: Internal server error.
           schema:
             $ref: '#/definitions/ApiResponse'
-  /findByBusinessView:
+  /findbybusinessbiew:
     get:
       tags:
         - SL Org
@@ -149,6 +149,8 @@ paths:
         you specify a combination of attributes, attributes for the same
         property are ORed and attributes in different properties are ANDed.
       operationId: findByBusinessView
+      produces:
+        - application/json
       parameters:
         - name: code
           in: query
@@ -227,7 +229,7 @@ paths:
           description: Internal server error.
           schema:
             $ref: '#/definitions/ApiResponse'
-  /findByFunction:
+  /findbyfunction:
     get:
       tags:
         - SL Org
@@ -237,6 +239,8 @@ paths:
         you specify a combination of attributes, attributes for the same
         property are ORed and attributes in different properties are ANDed.
       operationId: findByFunction
+      produces:
+        - application/json
       parameters:
         - name: code
           in: query
@@ -339,7 +343,7 @@ paths:
           description: Internal server error.
           schema:
             $ref: '#/definitions/ApiResponse'
-  /findByCostCenter:
+  /findbycostcenter:
     get:
       tags:
         - SL Org
@@ -349,6 +353,8 @@ paths:
         you specify a combination of attributes, attributes for the same
         property are ORed and attributes in different properties are ANDed.
       operationId: findByCostCenter
+      produces:
+        - application/json
       parameters:
         - name: costcenter
           in: query
@@ -443,7 +449,7 @@ paths:
           description: Internal server error.
           schema:
             $ref: '#/definitions/ApiResponse'
-  /findByProfitCenter:
+  /findbyprofitcenter:
     get:
       tags:
         - SL Org
@@ -453,6 +459,8 @@ paths:
         you specify a combination of attributes, attributes for the same
         property are ORed and attributes in different properties are ANDed.
       operationId: findByProfitCenter
+      produces:
+        - application/json
       parameters:
         - name: profitcenter
           in: query
