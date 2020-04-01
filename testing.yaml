@@ -12,10 +12,14 @@ info:
     url: 'http://www.slb.com'
 host: apigateway.evq.it.slb.com
 basePath: /proftiability-management/profit-center-management
+externalDocs:
+    description: 'Find out more on the SLB Wiki'
+    url: 'https://wiki.slb.com'
+tags:
+  - name: Cost Center and Profit Center
+    description: Search Cost Center and Profit Center by attribute
 schemes:
 - https
-consumes:
-  - application/json
 produces:
   - application/json
 security:
@@ -29,6 +33,8 @@ paths:
       description: >-
         Search for a list of Cost Centers following criteria passed as parameters. If you specify a combination of attributes, attributes for the same property are ORed and attributes in different properties are ANDed.
       operationId: CostCenterbySLOrgAttributes
+      produces:
+        - application/json
       parameters:
         - name: cost-center-code
           in: query
@@ -135,6 +141,8 @@ paths:
       description: >-
         Search for a list of profit centers following criteria passed as parameters. If you specify a combination of attributes, attributes for the same property are ORed and attributes in different properties are ANDed.
       operationId: ProfitCenterbySLOrgAttributes
+      produces:
+        - application/json
       parameters:
         - name: profit-center-code
           in: query
