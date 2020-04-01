@@ -1,0 +1,496 @@
+swagger: "2.0"
+info:
+  title: Cost and Profit Centers API
+  description: |
+    API to Search Cost Center and Profit Center by Business Team or Business View or function attributes
+  contact:
+    name: Sankar Krishnan
+    email: other_finance_data_services@slb.com 
+  version: 1.0.0
+  license:
+    name: Schlumberger proprietary
+    url: 'http://www.slb.com'
+host: apigateway.evq.it.slb.com
+basePath: /proftiability-management/profit-center-management
+schemes:
+- https
+consumes:
+  - application/json
+produces:
+  - application/json
+security:
+- APIKeyHeader: []
+paths:
+  /cost-centers:
+    get:
+      tags:
+        - Cost Center
+      summary: Find Cost Centers by SL Org Attributes
+      description: >-
+        Search for a list of Cost Centers following criteria passed as parameters. If you specify a combination of attributes, attributes for the same property are ORed and attributes in different properties are ANDed.
+      operationId: CostCenterbySLOrgAttributes
+      parameters:
+        - name: cost-center-code
+          in: query
+          type: string
+          description: code of the cost center
+        - name: cost-center-name
+          in: query
+          type: string
+          description: name of the cost center
+        - name: company-code
+          in: query
+          type: string
+          description: >-
+            Company code is an independent organizational unit under which you
+            can generate individual financial statements like profit & loss
+            account and balance sheets.
+        - name: business-area
+          in: query
+          type: string
+          description: >-
+              Organizational unit of external accounting that corresponds to a
+              specific location or area of responsibility in SLB.
+        - name: last-update-date
+          in: query
+          type: string
+          description: 'Date when Cost Center was last modified'
+        - name: cost-center-owner
+          in: query
+          type: string
+          description: Cost Center Owner GIN ID
+        - name: profit-center
+          in: query
+          type: string
+          description: >-
+            A profit center is an organizational unit in accounting that
+            reflects a management-oriented structure of SLB and reflects lowest
+            level at which full P&L and balancesheets are available.
+        - name: functional-area
+          in: query
+          type: string
+          description: >-
+            Functional Area is an organizational unit that classifies the
+            operating expenses of SLB according to functions administration
+        - name: type
+          in: query
+          type: string
+          description: >-
+            type represents structure type where cost center is located. e.g.
+            SSO, HQ, EMS etc.
+        - name: level1-cd
+          in: query
+          type: string
+          description: Structure code for Level 1 for the organization.
+        - name: level2-cd
+          in: query
+          type: string
+          description: Structure code for Level 2 for the organization.
+        - name: level3-cd
+          in: query
+          type: string
+          description: Structure code for Level 3 for the organization.
+        - name: level4-cd
+          in: query
+          type: string
+          description: Structure code for Level 4 for the organization
+        - name: level5-cd
+          in: query
+          type: string
+          description: Structure code for Level 5 for the organization.
+        - name: level1-alt-cd
+          in: query
+          type: string
+          description: Structure alternative code for Level 1 for the organization.
+        - name: level2-alt-cd
+          in: query
+          type: string
+          description: Structure alternative code for Level 2 for the organization
+        - name: level3-alt-cd
+          in: query
+          type: string
+          description: Structure alternative code for Level 3 for the organization
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CostCenterCollection'
+        '400':
+          description: Invalid tag/input
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '404':
+          description: Requested organization not found.
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '500':
+          description: Internal server error.
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /profit-centers:
+    get:
+      tags:
+        - Profit Center
+      summary: Find Profit Center by SL Org Attributes
+      description: >-
+        Search for a list of profit centers following criteria passed as parameters. If you specify a combination of attributes, attributes for the same property are ORed and attributes in different properties are ANDed.
+      operationId: ProfitCenterbySLOrgAttributes
+      parameters:
+        - name: profit-center-code
+          in: query
+          type: string
+          description: >-
+            Profit Center Code. A profit center is an organizational unit in
+            accounting that reflects a management-oriented structure of SLB and reflects lowest level at which full P&L and balancesheets are
+            available.
+        - name: profit-center-name
+          in: query
+          type: string
+          description: name of the profit center
+        - name: company-code
+          in: query
+          type: string
+          description: >-
+            Company code is an independent organizational unit under which you
+            can generate individual financial statements like profit & loss
+            account and balance sheets.
+        - name: type
+          in: query
+          type: string
+          description: >-
+            type represents structure type where cost center is located. e.g.
+            SSO, HQ, EMS etc.
+        - name: level1-cd
+          in: query
+          type: string
+          description: Structure code for Level 1 for the organization.
+        - name: level2-cd
+          in: query
+          type: string
+          description: Structure code for Level 2 for the organization.
+        - name: level3-cd
+          in: query
+          type: string
+          description: Structure code for Level 3 for the organization.
+        - name: level4-cd
+          in: query
+          type: string
+          description: Structure code for Level 4 for the organization
+        - name: level5-cd
+          in: query
+          type: string
+          description: Structure code for Level 5 for the organization.
+        - name: level1-alt-cd
+          in: query
+          type: string
+          description: Structure alternative code for Level 1 for the organization.
+        - name: level2-alt-cd
+          in: query
+          type: string
+          description: Structure alternative code for Level 2 for the organization
+        - name: level3-alt-cd
+          in: query
+          type: string
+          description: Structure alternative code for Level 3 for the organization
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ProfitCenterCollection'
+        '400':
+          description: Invalid tag/input
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '404':
+          description: Requested organization not found.
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '500':
+          description: Internal server error.
+          schema:
+            $ref: '#/definitions/ApiResponse'
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    name: x-apikey
+    in: header
+definitions:
+  CostCenterCollection:
+    required:
+        - self
+        - kind
+        - pageOf
+    type: object
+    properties:
+        self:
+            type: string
+            format: uri
+            description: 'Link to the current page of the paginated collection'
+        kind:
+            type: string
+            description: 'Kind of resource'
+        pageOf:
+            type: string
+            format: uri
+            description: 'Link to the collection'
+        next:
+            type: string
+            format: uri
+            description: 'Link to the next page in the paginated collection'
+        previous:
+            type: string
+            format: uri
+            description: 'Link to the previous page in the paginated collection'
+        contents:
+            type: array
+            items:
+                $ref: '#/definitions/CostCenter'
+        paging:
+            $ref: '#/definitions/paging'
+  CostCenter:
+    type: object
+    properties:
+        self:
+            type: string
+            format: uri
+            description: 'path-absolute link to the SL Org'
+        costcentercode:
+            type: string
+            description: 'Cost Center Code'
+            example: CA101591
+        description:
+            type: string
+            description: 'Cost Center Description'
+            example: 'NAM HFH CLEARING CAN'
+        lastUpdateDate:
+            type: string
+            description: 'Date when Cost Center was last modified'
+            format: date-time
+            example: '20-NOV-17 12.26.55.000000000 AM'
+        type:
+            type: string
+            description: 'The type of structure under which cost center exists (Product Line, Geomarket, Function etc.)'
+            example: TECH-EMSPG
+        owner:
+            type: string
+            description: 'Cost Center Owner (ranging from CEO, EVP, VP and Function VPs)'
+            example: 'James Scott'
+        companycode:
+            type: string
+            description: 'Company code is an independent organizational unit under which you can generate individual financial statements like profit & loss account and balance sheets'
+            example: CA01
+        businessarea:
+            type: string
+            description: 'Organizational unit of external accounting that corresponds to a specific location or area of responsibility in SLB'
+            example: CASJ
+        functionalarea:
+            type: string
+            description: 'Functional Area is an organizational unit that classifies the operating expenses of SLB according to functions administration'
+            example: OPS
+        profitcenter:
+            type: string
+            description: 'A profit center is an organizational unit in accounting that reflects a management-oriented structure of SLB and reflects lowest level at which full P&L and balancesheets are available'
+            example: OPS
+        level1Cd:
+            type: string
+            description: 'Structure Code for Level 1 for Cost Center'
+            example: WH
+        level2Cd:
+            type: string
+            description: 'Structure Code for Level 2 for Cost Center'
+            example: NAM
+        level3Cd:
+            type: string
+            description: 'Structure Code for Level 3 for Cost Center'
+            example: NAO
+        level4Cd:
+            type: string
+            description: 'Structure Code for Level 4 for Cost Center'
+            example: AEC
+        level5Cd:
+            type: string
+            description: 'Structure Code for Level 5 for Cost Center'
+            example: 'St.John'
+        level1AltCd:
+            type: string
+            description: 'Alternative Structure Code for Level 1 for Cost Center'
+            example: RDG
+        level2AltCd:
+            type: string
+            description: 'Alternative Structure Code for Level 2 for Cost Center'
+            example: MI
+        level3AltCd:
+            type: string
+            description: 'Alternative Structure Code for Level 3 for Cost Center'
+            example: MDS
+        citation:
+            $ref: '#/definitions/citation'                    
+  ProfitCenterCollection:
+    required:
+        - self
+        - kind
+        - pageOf
+    type: object
+    properties:
+        self:
+            type: string
+            format: uri
+            description: 'Link to the current page of the paginated collection'
+        kind:
+            type: string
+            description: 'Kind of resource'
+        pageOf:
+            type: string
+            format: uri
+            description: 'Link to the collection'
+        next:
+            type: string
+            format: uri
+            description: 'Link to the next page in the paginated collection'
+        previous:
+            type: string
+            format: uri
+            description: 'Link to the previous page in the paginated collection'
+        contents:
+            type: array
+            items:
+              $ref: '#/definitions/ProfitCenter'
+        paging:
+            $ref: '#/definitions/paging'
+  ProfitCenter:
+    type: object
+    properties:
+        self:
+            type: string
+            format: uri
+            description: 'path-absolute link to the SL Org'
+        profitcentercode:
+            type: string
+            description: 'Profit Center Code'
+            example: 100001
+        description:
+            type: string
+            description: 'Profit Center Description'
+            example: 'LAM SPM SPMAM'
+        lastUpdateDate:
+            type: string
+            description: 'Date when Cost Center was last modified'
+            format: date-time
+            example: '20-NOV-17 12.26.55.000000000 AM'
+        type:
+            type: string
+            description: 'The type of structure under which profit center exists (Product Line, Geomarket, Function etc.)'
+            example: GO-REGION
+        companycode:
+            type: string
+            description: 'Company code is an independent organizational unit under which you can generate individual financial statements like profit & loss account and balance sheets'
+            example: EC01
+        level1Cd:
+            type: string
+            description: 'Structure Code for Level 1 for Profit Center'
+            example: WH
+        level2Cd:
+            type: string
+            description: 'Structure Code for Level 2 for Profit Center'
+            example: LAM
+        level3Cd:
+            type: string
+            description: 'Structure Code for Level 3 for Profit Center'
+            example: LAN
+        level4Cd:
+            type: string
+            description: 'Structure Code for Level 4 for Profit Center'
+            example: ECU
+        level5Cd:
+            type: string
+            description: 'Structure Code for Level 5 for Profit Center'
+            example: 'FIV-145'
+        level1AltCd:
+            type: string
+            description: 'Alternative Structure Code for Level 1 for Profit Center'
+            example: RPG
+        level2AltCd:
+            type: string
+            description: 'Alternative Structure Code for Level 2 for Profit Center'
+            example: SPM
+        level3AltCd:
+            type: string
+            description: 'Alternative Structure Code for Level 3 for Profit Center'
+            example: SPMAM
+        citation:
+            $ref: '#/definitions/citation'
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+  paging:
+    required:
+    - pageOf
+    type: object
+    properties:
+      pageOf:
+        type: string
+        description: Link to the collection
+        format: uri
+      next:
+        type: string
+        description: Link to the next page in the paginated collection
+        format: uri
+      previous:
+        type: string
+        description: Link to the previous page in the paginated collection
+        format: uri
+  citation:
+    required:
+    - creation
+    - format
+    - originator
+    - title
+    type: object
+    properties:
+      title:
+        maxLength: 2000
+        type: string
+        description: One line description/name of the object. This is the equivalent
+          in ISO 19115 of CI_Citation.title Legacy DCGroup - title
+        example: 6507/7-A-42
+      originator:
+        maxLength: 64
+        type: string
+        description: Name (or other human-readable identifier) of the person who
+          initially originated the object or document in the source application.
+          If that information is not available, then this is the user who created
+          the format file. The originator remains the same as the object is subsequently
+          edited.  This is the equivalent in ISO 19115 to the CI_Individual.name
+          or the CI_Organization.name of the citedResponsibleParty whose role is
+          "originator". Legacy DCGroup - author
+        example: 1411_input
+      creation:
+        type: string
+        description: Date and time the document was created in the source application
+          or, if that information is not available, when it was saved to the file.
+          This is the equivalent of the ISO 19115 CI_Date where the CI_DateTypeCode
+          = "creation" Format YYYY-MM-DDThh:mm:ssZ[+/-]hh:mm Legacy DCGroup - created
+        format: date-time
+      format:
+        maxLength: 2000
+        type: string
+        description: Software or service that was used to originate the object and
+          the file format created. Must be human and machine readable and unambiguously
+          identify the software by including the company name, software name and
+          software version. This is the equivalent in ISO 19115 to the distributionFormat.MD_Format.
+          The ISO format for this is [vendor:applicationName]/fileExtension where
+          the application name includes the version number of the application. SIG
+          Implementation Notes - Legacy DCGroup from v1.1 - publisher - fileExtension
+          is not relevant and will be ignored if present. - vendor and applicationName
+          are mandatory.
+        example: Mapforce
+    description: 'An ISO 19115 EIP-derived set of metadata attached to all specializations
+      of AbstractObject to ensure the traceability of each individual independent
+      (top level) element.'
