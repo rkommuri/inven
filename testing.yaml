@@ -16,8 +16,8 @@ externalDocs:
     description: 'Find out more on the SLB Wiki'
     url: 'https://wiki.slb.com'
 tags:
-  - name: Cost Center
-    description: Find Cost Centers by SL Org Attributes
+  - name: Cost Center and Profit Center
+    description: Find Cost Centers and Profit Center by SL Org Attributes
 schemes:
 - https
 produces:
@@ -28,7 +28,7 @@ paths:
   /cost-centers:
     get:
       tags:
-        - Cost Center
+        - Cost Center and Profit Center
       summary: Find Cost Centers by SL Org Attributes
       description: >-
         Search for a list of Cost Centers following criteria passed as parameters. If you specify a combination of attributes, attributes for the same property are ORed and attributes in different properties are ANDed.
@@ -136,7 +136,7 @@ paths:
   /profit-centers:
     get:
       tags:
-        - Profit Center
+        - Cost Center and Profit Center
       summary: Find Profit Center by SL Org Attributes
       description: >-
         Search for a list of profit centers following criteria passed as parameters. If you specify a combination of attributes, attributes for the same property are ORed and attributes in different properties are ANDed.
