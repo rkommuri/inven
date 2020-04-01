@@ -16,8 +16,8 @@ externalDocs:
     description: 'Find out more on the SLB Wiki'
     url: 'https://wiki.slb.com'
 tags:
-  - name: Cost Center and Profit Center
-    description: Search Cost Center and Profit Center by attribute
+  - name: Cost Center
+    description: Find Cost Centers by SL Org Attributes
 schemes:
 - https
 produces:
