@@ -1,0 +1,220 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Stock Balance Details API
+  description: Material Stock Balance Details - Inventory Management Service.
+  contact:
+    name: API Team
+    email: JGattani@slb.com
+  license:
+    name: '(c) Copyright Schlumberger, unpublished work, created 02/06/2020'
+    url: 'http://www.slb.com'
+host: evd.apigateway.it.slb.com
+basePath: /inventory-management/inventory-planning
+schemes:
+  - https
+externalDocs:
+    description: 'Find out more on the SLB Wiki'
+    url: 'https://wiki.slb.com'
+tags:
+  - name: Material Stock Balance
+    description: Available inventory in Plant/Location
+consumes:
+  - application/json
+produces:
+  - application/json
+security:
+         - ApiKeyAuth: []
+paths:
+  /stock-balances:
+    get:
+      tags:
+        - Material Stock Balance
+      summary: Fetch available inventory for Material Plant Storage Location
+      operationId: stockBalances      
+      parameters:
+        - name: x-slb-material-location
+          in: header
+          description: >
+            Enter a value if you would like to track your transactions through
+             the Apigee monitoring tool (Apigee BAM)
+          required: false
+          type: string
+        - name: material-number
+          in: query
+          required: true
+          description: >
+            Material/part identification number. Materials are goods that are the subject of business activity.
+             The material can be traded, used in manufacture, consumed, or produced
+          type: string
+        - name: plant
+          in: query
+          required: true
+          description: >
+            Plant or location. Plant is a place where materials are produced,
+            or goods and services are provided
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/StockDetails'
+            
+        '400':
+          description: Invalid Operation
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Unauthorized Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Unauthorized Request
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Requested Item Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '429':
+          description: Request Limit Exceeded
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'    
+definitions:
+  StockDetails:
+    type: array
+    items:
+        $ref: '#/definitions/StockDetail'
+  StockDetail:
+    type: object
+    properties:
+        materialNumber:
+          type: string
+          maxLength: 18
+          example: 101115593
+          description: >
+             Material/part identification number. Materials are goods that are the subject of business activity. 
+             The material can be traded, used in manufacture, consumed, or produced
+        plant:
+          type: string
+          maxLength: 4
+          example: 1010
+          description: >
+             Plant or location. Plant is a place where materials are produced, or goods and services are provided. A plant is assigned to each location. 
+             Use the plant assigned to the location you are interested in
+        storageLocation:
+          type: string
+          maxLength: 4
+          example: 3000
+          description: >
+             A storage location is an organizational unit allowing differentiation between the various stocks of a material in a plant.
+              Inventory is provided for each storage location assigned to the plant.
+        batchNumber:
+          type: string
+          maxLength: 10
+          example: 12345678
+          description: 'Batch Number'
+        serialNumber:
+          type: string
+          maxLength: 18
+          example: SN123
+          description: 'Serial Number'
+        specialStock:
+          type: string
+          maxLength: 1
+          example: E
+          description: >
+             Special Stock indicating if the stock is for sales order (E), Vendor consignment (K), Consignment with customer (W), project stock (Q)
+        wbs:
+          type: string
+          maxLength: 18
+          example: J.17.005238
+          description: >
+             Work Breakdown Structure Element. Individual structural element in
+             a work breakdown structure (WBS) representing the hierarchical
+             organization of a project. 
+             Describes either a concrete task or a partial one that can be 
+             further subdivided.
+        valuationType:
+          type: string
+          maxLength: 10
+          example: USED
+          description: >
+             Valuation Types in case of split valuation. Material valuation helps in determining the price of the material,
+             and in which general ledger account it needs to be posted. The valuation types used are "NEW" and "USED"
+        unrestrictedQuantity:
+          type: number
+          example: '0'
+          description: 'Unrestr. Consgt'
+        baseUoM:
+          type: string
+          maxLength: 3
+          example: LB
+          description: >
+            'Base Unit of measure as defined in SAP. Refer to [SAP UoM] (https://wiki.slb.com/display/ea/SAP+Unit+of+Measure+list) for applicable values and descriptions'
+        projectStockQty:
+          type: number
+          example: '3'
+          description: 'Project stock quantity'
+        intransitProjectStockQty:
+          type: number
+          example: '0'
+          description: 'Unrestricted stock in transit'
+        intransitPlantStockQty:
+          type: number
+          example: '5'
+          description: >
+             Stock Quantity in transit from one storage location to another\n for a Stock transport Order
+        intransitStorageLocationQty:
+          type: number
+          example: '4'
+          description:  >
+             Stock Quantity in transit from one storage location to another\n for a Stock transport Order
+        customerNumber:
+          type: string
+          maxLength: 10
+          example: 'ICQA01'
+          description: >
+            'Customer number as defined in MDM. Link to Customers API Refer to [Customers API](https://apigateway.evp.it.slb.com/mdm_customersdata/customers)'
+        salesOrderNo:
+          type: string
+          maxLength: 10
+          example: '20008553'
+          description: 'SAP Sales Order Number'
+        salesOrderItem:
+          type: string
+          maxLength: 6
+          example: '000010'
+          description: 'SAP Sales Order Item Number'
+  Error:
+    type: object
+    properties:
+      title:
+        type: string
+        example: User First Name cannot be empty
+        description: >
+          'A short, human-readable summary of the problem that SHOULD NOT
+           change from occurrence to occurrence of the problem except
+           for purposes of localization.'
+      detail:
+        type: string
+        example: >
+          'Enter a value in the First Name field. If you do not know the first name then enter a space. 
+           The First Name field cannot be submitted with a null.'
+        description: >
+          'A human-readable explanation specific to this occurrence of then problem.
+           Like title, this field value can be localized.'
+        
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: x-apikey
