@@ -1,0 +1,267 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Stock Balance and Open Documents API
+  description: Material Stock Balance and Open documents - Inventory Management Service.
+  contact:
+    name: API Team
+    email: JGattani@slb.com
+  license:
+    name: '(c) Copyright Schlumberger, unpublished work, created 02/19/2020'
+    url: 'http://www.slb.com'
+host: evd.apigateway.it.slb.com
+basePath: /inventory-management/inventory-planning
+schemes:
+  - https
+externalDocs:
+    description: 'Find out more on the SLB Wiki'
+    url: 'https://wiki.slb.com'
+tags:
+  - name: Material Location Stock and Open Documents
+    description: Available inventory and Open Documents in Plant/Location
+security:
+         - ApiKeyAuth: []
+paths:
+  /stock-balances:
+    get:
+      tags:
+        - Material Location Stock and Open Documents
+      summary: Fetch available inventory for Material & Plant 
+      operationId: stockBalances
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-slb-Material-Location
+          in: header
+          description: Enter a value if you would like to track your transactions through the Apigee monitoring tool (Apigee BAM)
+          required: false
+          type: string
+        - name: material-number
+          in: query
+          required: true
+          description: 'Material identification number'
+          type: string
+        - name: plant
+          in: query
+          required: true
+          description: Location/Store Name
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/StockDetails'
+            
+        '400':
+          description: Invalid Operation
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Unauthorized Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Unauthorized Request
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Requested Item Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '429':
+          description: Request Limit Exceeded
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'    
+          
+  /open-documents:
+    get:
+      tags:
+        - Material Location Stock and Open Documents
+      summary: Fetch open Supply/Demand Documents for Material & Plant 
+      operationId: openSupplyDemandDocuments
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-slb-Material-Location
+          in: header
+          description: Enter a value if you would like to track your transactions through the Apigee monitoring tool (Apigee BAM)
+          required: false
+          type: string
+        - name: material-number
+          in: query
+          required: true
+          description: 'Material identification number'
+          type: string
+        - name: plant
+          in: query
+          required: true
+          description: Location/Store Name
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+           $ref: '#/definitions/OpenDocs'
+        '400':
+          description: Invalid Operation
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Unauthorized Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Unauthorized Request
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Requested Item Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '429':
+          description: Request Limit Exceeded
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'    
+
+definitions:
+  StockDetails:
+    type: object
+    properties:
+        materialNumber:
+          type: string
+          maxLength: 18
+          example: M0004024
+          description: 'Material identification number'
+        plant:
+          type: string
+          maxLength: 4
+          example: 1010
+          description: 'Location/Store Name'
+        totalPlantStock:
+          type: number
+          example: '5'
+          description: 'Unrestricted stock quantity'
+        baseUoM:
+          type: string
+          maxLength: 3
+          example: LB
+          description: 'Base Unit of Measure'
+        totalOpenPOQty:
+          type: number
+          example: '10'
+          description: 'Total Open PO Quantity'
+        totalOpenReservationQty:
+          type: number
+          example: '5'
+          description: 'Stock in transfer'
+        openRequisitionQty:
+          type: number
+          example: '0'
+          description: 'Unrestricted stock quantity'
+        openSalesOrderQty:
+          type: number
+          example: '4'
+          description: 'Sales Order quantity'
+        openDeliveryQty:
+          type: number
+          example: '0'
+          description: 'Delivery quantity'
+        earliestPOavlbDate:
+          type: string
+          format: date
+          example: '2015-10-04'
+          description: 'Earliest PO available date'
+  OpenDocs:
+    type: object
+    properties:
+        materialNumber:
+          type: string
+          maxLength: 18
+          example: M0004024
+          description: 'Material identification number'
+        plant:
+          type: string
+          maxLength: 4
+          example: 1010
+          description: 'Location or Store Name'
+        docType:
+          type: string
+          maxLength: 20
+          example: 'PO'
+          description: 'Supply or Demand Document type'
+        docNum:
+          type: string
+          maxLength: 10
+          example: '4500001388'
+          description: 'Document Number'
+        docLiItem:
+          type: string
+          maxLength: 6
+          example: '000010'
+          description: 'Document Line Item'
+        docSchLine:
+          type: string
+          maxLength: 4
+          example: '0001'
+          description: 'Document Sch Line'
+        docOpenQty:
+          type: number
+          example: '0'
+          description: 'Qty'
+        baseUoM:
+          type: string
+          maxLength: 3
+          example: LB
+          description: 'Base Unit of Measure'
+        rcpissueind:
+          type: string
+          maxLength: 1
+          example: '+'
+          description: 'Receipt Issue Indicator'
+        ocAvlbDate:
+          type: string
+          format: date
+          description: 'Date Needed or Available'
+          example: '2015-10-04'
+        stloc:
+          type: string
+          maxLength: 4
+          example: '3000'
+          description: 'Storage Location'
+  Error:
+    type: object
+    properties:
+      title:
+        type: string
+        example: User First Name cannot be empty
+        description: A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.
+      detail:
+        type: string
+        example: Enter a value in the First Name field. If you do not know the first name then enter a space. The First Name field cannot be submitted with a null.
+        description: A human-readable explanation specific to this occurrence of the problem. Like title, this field value can be localized.
+        
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: x-apikey
