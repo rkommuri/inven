@@ -9,10 +9,13 @@ info:
   license:
     name: '(c) Copyright Schlumberger, unpublished work, created 02/19/2020'
     url: 'http://www.slb.com'
-host: apigateway.evq.it.slb.com
+host: evd.apigateway.it.slb.com
 basePath: /inventory-management/inventory-planning
 schemes:
   - https
+externalDocs:
+    description: 'Find out more on the SLB Wiki'
+    url: 'https://wiki.slb.com'
 tags:
   - name: Material Location Stock and Open Documents
     description: Available inventory and Open Documents in Plant/Location
@@ -22,7 +25,7 @@ paths:
   /stock-balances:
     get:
       tags:
-        - Stock Balances
+        - Material Location Stock and Open Documents
       summary: Fetch available inventory for Material & Plant 
       operationId: stockBalances
       consumes:
@@ -83,7 +86,7 @@ paths:
   /open-documents:
     get:
       tags:
-        - openDocuments
+        - Material Location Stock and Open Documents
       summary: Fetch open Supply/Demand Documents for Material & Plant 
       operationId: openSupplyDemandDocuments
       consumes:
