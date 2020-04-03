@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: Stock Balance and Open Documents API
+  title: Stock Balance and Open Documents APIaa
   description: Material Stock Balance and Open documents - Inventory Management Service.
   contact:
     name: API Team
