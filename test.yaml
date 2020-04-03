@@ -32,6 +32,8 @@ paths:
         - Material Stock Balance
       summary: Fetch available inventory for Material Plant Storage Location
       operationId: stockBalances      
+      produces:
+        - application/json
       parameters:
         - name: x-slb-material-location
           in: header
