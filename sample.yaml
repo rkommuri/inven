@@ -49,13 +49,7 @@ paths:
             description: 'API to get list of all supported currencies.'
             operationId: getCurrencies
             produces: [application/json]
-            responses:
-              '200':
-                description: OK
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Currency'
+            responses: {'200': {description: OK, schema: {$ref: '#/definitions/Currency'}}}
 securityDefinitions:
     ApiKeyAuth:
         type: apiKey
