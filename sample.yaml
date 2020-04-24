@@ -11,9 +11,9 @@ info:
 host: apigateway.evq.it.slb.com
 basePath: /market-to-cash/exchange-rate
 tags:
-    -   name: 'Exchange Rate'
-        description: 'API covers quotes for Financial Instruments'
-    -   name: 'currencies'
+    -   name: Exchange Rate
+        description: API covers quotes for Financial Instruments
+    -   name: Currencies
         description: 'API to get list of supported currencies '
 schemes:
     - https
@@ -25,16 +25,26 @@ externalDocs:
 paths:
     /exchangerate:
         get:
-            tags: ['Exchange Rate']
+            tags: Exchange Rate
             summary: 'exchange rate service for currencies'
             description: 'exchange rate service for currencies'
             operationId: exchangerate
             produces: [application/json]
             parameters: [{$ref: '#/parameters/tickerSymbolQuery'}, {$ref: '#/parameters/uniqueIdentifierTypeQuery'}, {$ref: '#/parameters/uniqueIdentifierCodeQuery'}, {$ref: '#/parameters/rateSourceQuery'}, {$ref: '#/parameters/rateDateQuery'}, {$ref: '#/parameters/priceTypeQuery'}]
             responses: {'200': {description: 'successful operation', schema: {$ref: '#/definitions/ExchangeRate'}}, '400': {description: 'Invalid Ticker symbol or Unique Identification Type Code and Type supplied'}}
+    /exchangerates:
+        get:
+            tags: Exchange Rate
+            summary: 'API to retrieve exchange rate service for currencies by given date with pagination'
+            description: 'API to retrieve exchange rate service for currencies by given date with pagination'
+            operationId: getExchangeRatesByDateUsingGET
+            produces: [application/json]
+            parameters: [{$ref: '#/parameters/tickerSymbolQuery'}, {$ref: '#/parameters/uniqueIdentifierTypeQuery'}, {$ref: '#/parameters/uniqueIdentifierCodeQuery'}, {$ref: '#/parameters/rateSourceQuery'},{$ref: '#/parameters/pageNumberQuery'}, {$ref: '#/parameters/toDateQuery'},{$ref: '#/parameters/fromDateQuery'}]
+            responses: {'200': {description: OK, schema: {$ref: '#/definitions/ExchangeRatesResponse'}}, '401': {description: Unauthorized}, '404': {description: 'Not Found', schema: {$ref: '#/definitions/Error404Response'}}}
+            deprecated: false
     /currencies:
         get:
-            tags: ['currencies']
+            tags: Currencies
             summary: 'API to get list of all supported currencies.'
             description: 'API to get list of all supported currencies.'
             operationId: getCurrencies
@@ -46,16 +56,6 @@ paths:
                   type: array
                   items:
                     $ref: '#/definitions/Currency'
-    /exchangerates:
-        get:
-            tags: ['Exchange Rate']
-            summary: 'API to retrieve exchange rate service for currencies by given date with pagination'
-            description: 'API to retrieve exchange rate service for currencies by given date with pagination'
-            operationId: getExchangeRatesByDateUsingGET
-            produces: [application/json]
-            parameters: [{$ref: '#/parameters/tickerSymbolQuery'}, {$ref: '#/parameters/uniqueIdentifierTypeQuery'}, {$ref: '#/parameters/uniqueIdentifierCodeQuery'}, {$ref: '#/parameters/rateSourceQuery'},{$ref: '#/parameters/pageNumberQuery'}, {$ref: '#/parameters/toDateQuery'},{$ref: '#/parameters/fromDateQuery'}]
-            responses: {'200': {description: OK, schema: {$ref: '#/definitions/ExchangeRatesResponse'}}, '401': {description: Unauthorized}, '404': {description: 'Not Found', schema: {$ref: '#/definitions/Error404Response'}}}
-            deprecated: false
 securityDefinitions:
     ApiKeyAuth:
         type: apiKey
